@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+{{ parent() }}
+{% endblock %}
+
+
+{% block child %}
+<section class="page">
+<h1>profil</h1>
+<a href="{{ path('app_logout') }}" class="btn btn btn-warning">Logout</a>
+<div class="profile-container">
+    <div class="main-body">
+    
+    
+          <div class="row gutters-sm">
+            <div>
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{ app.user.username }}</h4>
+                      <p class="text-secondary mb-1">{{ app.user.roles[0] }}</p>
+                      <button class="btn btn-primary">Follow</button>
+                      <button class="btn btn-outline-primary">Message</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-3">
+                <ul class="list-group list-group-flush">
+               
+                </ul>
+              </div>
+            
+            <div >
+              <div class="card mb-15 info">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Nom d'utilisateur</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     {{ app.user.username }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ app.user.email }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Téléphone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ app.user.phone }}
+                    </div>
+                  </div>
+                  <hr>
+                  
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Addresse </h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     {{ app.user.adress }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <a class="btn btn-info "  href={{ path("app_edit",{id : app.user.id}) }}>Modifier</a>
+                     <a class="btn btn-danger " href={{ path("app_delete",{id : app.user.id}) }}>Supprimer compte</a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+             
+                
+
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+</section>
+{% endblock %}

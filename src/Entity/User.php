@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -20,23 +21,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message:"username is requierd")]
+    #[Assert\NotBlank(message:"username is required")]
     private ?string $username = null;
    
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message:"email is requierd")]
+    #[Assert\NotBlank(message:"email is required")]
     #[Assert\Email(message:"the email is not valid mail")]
     private ?string $email = null;
 
     
+    #[ORM\Column(length: 8, unique: true)]
+    #[Assert\NotBlank(message:"phone is required")]
+    #[Assert\Length(
+        min: 8,
+        max: 8,
+    )]
+    private ?int $phone = null;
+
+    #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message:"adress is required")]
+    private ?string $adress = null;
+
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"role is requierd")]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message:"password is required")]
     private ?string $password = null;
 
     public function getId(): ?int
@@ -52,6 +67,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+    
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

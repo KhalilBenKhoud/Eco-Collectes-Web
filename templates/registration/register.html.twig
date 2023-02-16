@@ -9,20 +9,52 @@
 {% endblock %}
 
 {% block child %}
-    <section class="registration-page">
-    <h1>Register</h1>
+    <section class="page">
+    <h1>S'inscrire</h1>
 
-    {{ form_start(registrationForm,{'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_start(registrationForm,{'attr': {'novalidate': 'novalidate','class':'form'}}) }}
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+   
+         <div>
+        <div> Nom d'utilisateur : </div>
         {{ form_widget(registrationForm.username,{'attr':{'class':'form-control'}}) }}
-        {{ form_errors(registrationForm.username,{'attr':{'class':'alert-color'}}) }}
-        {{ form_row(registrationForm.email) }}
-         {{ form_row(registrationForm.roles) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+      <div class="danger">  {{ form_errors(registrationForm.username) }} </div>
+        </div>
+        <div>
+        <div> Email : </div>
+        {{ form_widget(registrationForm.email,{'attr':{'class':'form-control'}}) }}
+        <div class="danger">  {{ form_errors(registrationForm.email) }} </div>
+         </div>
+          <div>
+        <div> Téléphone : </div>
+        {{ form_widget(registrationForm.phone,{'attr':{'class':'form-control'}}) }}
+        <div class="danger">  {{ form_errors(registrationForm.phone) }} </div>
+         </div>
+          <div>
+        <div> Adresse : </div>
+        {{ form_widget(registrationForm.adress,{'attr':{'class':'form-control'}}) }}
+        <div class="danger">  {{ form_errors(registrationForm.adress) }} </div>
+         </div>
+         <div>
+         <div> Rôle : </div>
+         {{ form_widget(registrationForm.roles) }}
+         <div class="danger">  {{ form_errors(registrationForm.roles) }} </div>
+         </div>
+         <div> 
+        {{ form_widget(registrationForm.password) }}
+        <div class="danger">  {{ form_errors(registrationForm.password) }} </div>
+        </div>
+        <div>
+        J'accepte les conditions
+        {{ form_widget(registrationForm.agreeTerms) }}
+         <div class="danger">  {{ form_errors(registrationForm.agreeTerms) }} </div>
+         </div>
 
-        <button type="submit" class="btn btn-lg btn-primary">Register</button>
+        <button type="submit" class="btn btn-lg btn-primary">S'inscrire</button>
     {{ form_end(registrationForm) }}
     </section>
 {% endblock %}

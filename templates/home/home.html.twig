@@ -9,9 +9,9 @@
 
 
 {% block child %}
-  <section class="page">
+  <section>
       <div class="welcome">
-      <h1>Bienvenue à ECO COLLECTES</h1>
+      <h1 class="title">Bienvenue à ECO COLLECTES</h1>
       <div>
       <a class="btn btn-light" href={{path('app_register')}}>S'inscrire</a>
       <a class="btn btn-primary" href={{path('app_login')}}>Se connecter</a>
@@ -85,4 +85,36 @@ Nous sommes déterminés à faire un impact positif sur notre planète et à ins
         </div>
       </div>
   </section>
+  <script>
+
+window.addEventListener("load", () => {
+    
+var text = document.getElementsByClassName("title")[0]
+var textLine = text.innerText
+var split = textLine.split("")
+console.log(split)
+text.innerText = ""
+
+for(let i=0; i< split.length ; i++)
+{
+    text.innerHTML += "<span class='span'>" + split[i] + "</span>"
+}
+    var timer = setInterval(onTick,50)
+    let char = 0
+    function onTick()
+    {  
+        var span = document.getElementsByClassName("span")[char]
+        span.classList.add("fade")
+        char++
+    
+        if(char == split.length)
+        {
+            clearInterval(timer)
+            timer = null
+            return
+        }
+    
+    }
+})
+  </script>
 {% endblock %}

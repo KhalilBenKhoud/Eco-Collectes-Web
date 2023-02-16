@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -23,6 +24,8 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email')
             ->add('username')
+            ->add('phone')
+            ->add('adress')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -34,29 +37,37 @@ class RegistrationFormType extends AbstractType
             ->add('roles', ChoiceType::class,
              [   'label' => 'Rôles' ,
                 'choices' => [
-               'donneur' => 'ROLE_DONNEUR',
-                'Collecteur' =>  'ROLE_COLLECTEUR' 
+               'Donneur' => 'ROLE_DONNEUR',
+                'Collecteur' =>  'ROLE_COLLECTEUR', 
+                'Entrepsrise' =>  'ROLE_ENTREPRISE' 
                 ],
                 'multiple' => false,
-                'expanded' => true,
-            ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'expanded' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Please select a role',
                     ]),
+                ],
+            ])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'options' => ['attr' => ['class' => 'form-control'],'error_bubbling' => true],
+                'required' => true,
+                'first_options'  => ['label' => 'Mot de passe : '],
+                'second_options' => ['label' => 'Confirmer le mot de passe :'],
+                'first_name' => 'pass',
+                'constraints' => [
+        
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 50,
                     ]),
                 ],
             ]);
+            
             $builder->get('roles')
             ->addModelTransformer(new CallbackTransformer(
                 function ($rolesArray) {
