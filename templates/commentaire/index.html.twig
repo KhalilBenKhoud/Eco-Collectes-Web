@@ -3,24 +3,22 @@
 {% block title %}Commentaire index{% endblock %}
 
 {% block body %}
-    <h1>Commentaire index</h1>
+    <h1>Commentaire</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>ContenuCommentaire</th>
+                <th>Contenu de Commentaire</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for commentaire in commentaires %}
             <tr>
-                <td>{{ commentaire.id }}</td>
                 <td>{{ commentaire.ContenuCommentaire }}</td>
                 <td>
-                    <a href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}">show</a>
-                    <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">edit</a>
+                    <a href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}">voir</a>
+                    <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +29,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_commentaire_new') }}">Create new</a>
+    <a href="{{ path('app_commentaire_new') }}">ajouter nouveau commentaire</a>
 {% endblock %}

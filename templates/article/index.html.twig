@@ -3,12 +3,11 @@
 {% block title %}Article index{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
+    <h1>Collectors community forum </h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Titre</th>
                 <th>Contenu</th>
                 <th>actions</th>
@@ -17,12 +16,11 @@
         <tbody>
         {% for article in articles %}
             <tr>
-                <td>{{ article.id }}</td>
                 <td>{{ article.titre }}</td>
                 <td>{{ article.contenu }}</td>
                 <td>
-                    <a href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
-                    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+                     <a href="{{ path('app_article_show', {'id': article.id}) }}">voir</a>
+                     <a href="{{ path('app_article_edit', {'id': article.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_article_new') }}">Create new</a>
+    <a href="{{ path('app_article_new') }}">ajouter nouveau article</a>
 {% endblock %}
