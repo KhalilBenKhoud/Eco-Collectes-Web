@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Collect{% endblock %}
+
+{% block body %}
+    <h1>Create new Collect</h1>
+
+    {{ include('collect/_form.html.twig') }}
+
+    <a href="{{ path('app_collect_index') }}">back to list</a>
+{% endblock %}
