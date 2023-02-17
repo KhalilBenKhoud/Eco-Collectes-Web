@@ -20,15 +20,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message:"username is requierd")]
+    #[Assert\NotBlank(message: "username is requierd")]
     private ?string $username = null;
-   
+
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message:"email is requierd")]
-    #[Assert\Email(message:"the email is not valid mail")]
+    #[Assert\NotBlank(message: "email is requierd")]
+    #[Assert\Email(message: "the email is not valid mail")]
     private ?string $email = null;
 
-    
+
 
     #[ORM\Column]
     private array $roles = [];
@@ -62,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
-        return $this ;
+        return $this;
     }
 
     /**
@@ -75,7 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-    
+
 
     /**
      * @see UserInterface

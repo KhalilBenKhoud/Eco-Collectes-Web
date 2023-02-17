@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Security\AppCustomAuthenticator ;
+use App\Security\AppCustomAuthenticator;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,10 +21,12 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher,
-     EntityManagerInterface $entityManager, 
-     UserAuthenticatorInterface $authenticator
-     ,AppCustomAuthenticator $formAuthenticator): Response
+    public function register(
+        Request $request, UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        UserAuthenticatorInterface $authenticator
+        , AppCustomAuthenticator $formAuthenticator
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,15 +40,16 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setRoles( $form->get('roles')->getData() );
+            $user->setRoles($form->get('roles')->getData());
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
             return $authenticator->authenticateUser(
-                $user, 
-                $formAuthenticator, 
-                $request); 
+                $user,
+                $formAuthenticator,
+                $request
+            );
 
 
 
@@ -55,7 +58,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            
+
         ]);
     }
 }
