@@ -1,0 +1,83 @@
+{% extends 'back.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+{% endblock %}
+
+
+{% block sidebar %}
+  {{ parent() }}
+{% endblock %}
+
+
+{% block header %}
+  
+  {{ parent() }}
+ 
+{% endblock %}
+
+{% block userscount %}
+
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                number of users</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{count}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+{% endblock %}
+
+{% block child %}
+<div class="row">
+<h1>Users</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Userame</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Rôle</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <th scope="row">{{u.id}}</th>
+      <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.phone }}</td>
+        <td>{{ u.gender }}</td>
+         <td>{{ u.roles[0] }}</td>
+       {# <td><a href="{{ path('update', {'id' : c.id}) }}">Update</a></td> #}
+      <td><a href="{{ path('admin_delete', {'id' : u.id}) }}">Delete</a></td> 
+    </tr>
+    </main>
+    {% endfor %}
+  </tbody>
+</div>
+{% endblock %}
+
+

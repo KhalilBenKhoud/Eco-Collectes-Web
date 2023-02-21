@@ -27,24 +27,20 @@
          </div>
           <div>
         <div> Adresse : </div>
-        {{ form_widget(form.adress,{'attr':{'class':'form-control'}}) }}
-        <div class="danger">  {{ form_errors(form.adress) }} </div>
+        {{ form_widget(form.address,{'attr':{'class':'form-control'}}) }}
+        <div class="danger">  {{ form_errors(form.address) }} </div>
+         </div>
+         <div>
+         <div> Genre : </div>
+         {{ form_widget(form.gender) }}
+         <div class="danger">  {{ form_errors(form.gender) }} </div>
          </div>
          <div>
          <div> Rôle : </div>
          {{ form_widget(form.roles) }}
          <div class="danger">  {{ form_errors(form.roles) }} </div>
          </div>
-         <div> 
-        {{ form_widget(form.password) }}
-        <div class="danger">  {{ form_errors(form.password) }} </div>
-        </div>
-       <div>
-        J'accepte les conditions
-        {{ form_widget(form.agreeTerms) }}
-         <div class="danger">  {{ form_errors(form.agreeTerms) }} </div>
-         </div>
-
+       
 <button type="submit" class="btn btn-info">Modifier</button>
 {{form_end(form)}}
 </section>

@@ -298,9 +298,96 @@ footer {
 }
 
 .info {
-    width: 500px ;
+    width: 600px ;
 }
-
+.info > div {
+    width: 600px;
+}
 .hidden {
     display: none;
 }
+
+.rou {
+    width: 150px;
+    height: 150px;
+    border-radius: 50% ;
+}
+
+.cc {
+    
+    display: flex;
+    gap : 20px ;
+}
+
+.cc a {
+    white-space: nowrap ;
+}
+
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+  }
+  
+ 
+  /* The popup form - hidden by default */
+  .form-popup {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    width: 100%;
+    height: 100%;   
+   
+  }
+
+  .form-con {
+    width: 150%;
+    height : 100%;
+    position: relative;
+    top: -280px ;
+    left: -40px ; 
+    background-color: rgba(0, 128, 0, 0.263) !important;
+     opacity : 1 ;
+  }
+  
+  /* Full-width input fields */
+  .form-con input[type=file] {
+    width: 90%;
+    margin-bottom : 10px ;
+   
+  }
+  
+  /* When the inputs get focus, do something */
+  
+  
+  /* Set a style for the submit/login button */
+  .form-con .btn {
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  
+  /* Add a red background color to the cancel button */
+  .form-con .cancel {
+    background-color: red;
+  }
+  
+  /* Add some hover effects to buttons */
+  .form-con .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+

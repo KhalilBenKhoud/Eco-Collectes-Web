@@ -36,13 +36,23 @@
          </div>
           <div>
         <div> Adresse : </div>
-        {{ form_widget(registrationForm.adress,{'attr':{'class':'form-control'}}) }}
-        <div class="danger">  {{ form_errors(registrationForm.adress) }} </div>
+        {{ form_widget(registrationForm.address,{'attr':{'class':'form-control'}}) }}
+        <div class="danger">  {{ form_errors(registrationForm.address) }} </div>
+         </div>
+           <div>
+        <div> Photo de profil : (optionnelle) </div>
+        {{ form_widget(registrationForm.imageFilename,{'attr':{'class':'form-control'}}) }}
+        <div class="danger">  {{ form_errors(registrationForm.imageFilename) }} </div>
          </div>
          <div>
          <div> Rôle : </div>
          {{ form_widget(registrationForm.roles) }}
          <div class="danger">  {{ form_errors(registrationForm.roles) }} </div>
+         </div>
+         <div>
+         <div> Genre : </div>
+         {{ form_widget(registrationForm.gender) }}
+         <div class="danger">  {{ form_errors(registrationForm.gender) }} </div>
          </div>
          <div> 
         {{ form_widget(registrationForm.password) }}

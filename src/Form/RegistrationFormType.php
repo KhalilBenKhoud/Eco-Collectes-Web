@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 
 
@@ -25,7 +26,7 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('username')
             ->add('phone')
-            ->add('adress')
+            ->add('address')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -46,6 +47,24 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please select a role',
+                    ]),
+                ],
+            ])
+            ->add('imageFilename', FileType::class, [
+                'label' => 'Profile Image',
+                'required' => false,
+            ])
+            ->add('gender', ChoiceType::class, [
+                'choices' => [
+                    'Homme' => 'homme',
+                    'Femme' => 'femme',
+                    
+                ],
+                'multiple' => false,
+                'expanded' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please select a gender',
                     ]),
                 ],
             ])
