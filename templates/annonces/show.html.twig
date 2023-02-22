@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonces{% endblock %}
+
+{% block body %}
+    <h1>Annonces</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th> Id </th>
+                <td>{{ annonce.id }}</td>
+            </tr>
+            <tr>
+                <th> Titre </th>
+                <td>{{ annonce.titre }}</td>
+            </tr>
+            <tr>
+                <th> Description </th>
+                <td>{{ annonce.description }}</td>
+            </tr>
+            <tr>
+                <th> Image </th>
+                <td>
+                    <img src="{{ asset('uploads/image/' ~ annonce.imgUrl) }}" alt="{{ annonce.titre }}">
+                </td>
+            </tr>
+            <tr>
+                <th> Date de Creation</th>
+                <td>{{ annonce.dateCreation ? annonce.dateCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th> Date de Modification</th>
+                <td>{{ annonce.dateModification ? annonce.dateModification|date('Y-m-d') : '' }}</td>
+            </tr>
+             <tr>
+                <th>Commentaires</th>
+                <td> 
+                    {% for c in annonce.joinCommentaire %}
+                        {{ c.titre }}
+                            <br/>
+                        {{ c.contenu }}
+                            <hr/>
+                    {% endfor %} 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annonces_index') }}">back to list</a>
+
+    <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}">edit</a>
+
+    {{ include('annonces/_delete_form.html.twig') }}
+{% endblock %}
