@@ -1,13 +1,32 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}Edit Article{% endblock %}
 
 {% block body %}
-    <h1>Edit Article</h1>
 
-    {{ include('article/_form.html.twig', {'button_label': 'Update'}) }}
+            <body class="sb-nav-fixed">
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Admin-Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                               Forums-DataTable 
+                            </div>
+                            <div class="card-body">
+                         {{ include('article/_form.html.twig', {'button_label': 'Update'}) }}
+                             {{ include('article/_delete_form.html.twig') }}
+                            </div>
+                            <button onclick="location.href='http://localhost/Eco-Collectes-Web/public/index.php/article/admin'" class="btn">back to list</button>
 
-    <a href="{{ path('app_article_index') }}">retour au articles</a>
+                        </div>
+                    </div>
+                </main>
+            </div>
 
-    {{ include('article/_delete_form.html.twig') }}
 {% endblock %}

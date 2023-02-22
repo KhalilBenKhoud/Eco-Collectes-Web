@@ -25,6 +25,12 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Commentaire::class)]
     private Collection $Relation;
 
+    #[ORM\Column(length: 255)]
+    private ?string $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ref')]
+    private ?Categorie $categorie = null;
+
     public function __construct()
     {
         $this->Relation = new ArrayCollection();
@@ -91,6 +97,30 @@ class Article
                 $relation->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
