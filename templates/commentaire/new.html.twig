@@ -3,9 +3,94 @@
 {% block title %}New Commentaire{% endblock %}
 
 {% block body %}
-    <h1>Create new Commentaire</h1>
+<section class="page">
+    <h2> Créer un Commentaire </h2>
+    <div class="container">
+        <div class="card overflow-hidden text-center">
+            <ul class="list-group list-group-flush">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'form' }}) }}
 
-    {{ include('commentaire/_form.html.twig') }}
+                <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Titre:</span>
+                        <strong class="inp">
+                            {{ form_widget(form.titre, {'attr': {'class':'form-control'}}) }}
+                        </strong>
+                </li>
+                <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Contenu:</span>
+                        <strong class="inp">
+                            {{ form_widget(form.contenu, {'attr': {'class':'form-control'}}) }}
+                        </strong>
+                </li>
+                <button id="bton" type='submit' class="btn btn-sm btn-primary">submit</button>
+                <a id="bton" class="btn btn-sm btn-primary" href="{{ path('app_commentaire_index') }}">back to list</a>
 
-    <a href="{{ path('app_commentaire_index') }}">back to list</a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>
+    <style>
+        .inp{
+            width:70%;
+        }
+
+        #bton{
+            width:40%;
+            margin-top:7px;
+            margin-bottom:7px
+        }
+
+        .avatar.xl {
+            width: 5rem;
+            height: 5rem;
+            font-size: 1.09375rem;
+        }
+
+        .avatar img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .bg-opacity-10 {
+            --bs-bg-opacity: 0.1;
+        }
+        .bg-gray {
+            --bs-bg-opacity: 1;
+            background-color: rgba(var(--bs-gray-rgb),var(--bs-bg-opacity))!important;
+        }
+        .p-1 {
+            padding: 0.25rem!important;
+        }
+        .mt-n5 {
+            margin-top: -1.5rem!important;
+        }
+        .mx-auto {
+            margin-right: auto!important;
+            margin-left: auto!important;
+        }
+        .position-relative {
+            position: relative!important;
+        }
+        .d-block {
+            display: block!important;
+        }
+        a {
+            color: var(--bs-link-color);
+            text-decoration: none;
+        }
+        .container {
+            width: 50%;
+            display:flex;
+            justify-content: center;
+        }
+    </style>
+
 {% endblock %}

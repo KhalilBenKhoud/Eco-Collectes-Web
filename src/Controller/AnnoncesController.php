@@ -33,10 +33,12 @@ class AnnoncesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imgUrl')->getData();
-            $imageFileName = md5(uniqid()) . '.' . $imageFile->guessExtension();
-            $imageFile->move($this->getParameter('image_directory'), $imageFileName);
-
-            $annonce->setImgUrl($imageFileName);
+            if($imageFile){
+                $imageFileName = md5(uniqid()) . '.' . $imageFile->guessExtension();
+                $imageFile->move($this->getParameter('image_directory'), $imageFileName);
+    
+                $annonce->setImgUrl($imageFileName);
+            }
 
             $annoncesRepository->save($annonce, true);
 

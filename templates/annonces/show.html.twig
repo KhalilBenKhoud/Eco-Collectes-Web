@@ -1,55 +1,160 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonces{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Annonces</h1>
+    {{ parent() }}
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th> Id </th>
-                <td>{{ annonce.id }}</td>
-            </tr>
-            <tr>
-                <th> Titre </th>
-                <td>{{ annonce.titre }}</td>
-            </tr>
-            <tr>
-                <th> Description </th>
-                <td>{{ annonce.description }}</td>
-            </tr>
-            <tr>
-                <th> Image </th>
-                <td>
-                    <img src="{{ asset('uploads/image/' ~ annonce.imgUrl) }}" alt="{{ annonce.titre }}">
-                </td>
-            </tr>
-            <tr>
-                <th> Date de Creation</th>
-                <td>{{ annonce.dateCreation ? annonce.dateCreation|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th> Date de Modification</th>
-                <td>{{ annonce.dateModification ? annonce.dateModification|date('Y-m-d') : '' }}</td>
-            </tr>
-             <tr>
-                <th>Commentaires</th>
-                <td> 
-                    {% for c in annonce.joinCommentaire %}
-                        {{ c.titre }}
-                            <br/>
-                        {{ c.contenu }}
-                            <hr/>
-                    {% endfor %} 
-                </td>
-            </tr>
-        </tbody>
-    </table>
+{% block title %}Annonces{% endblock %}
 
-    <a href="{{ path('app_annonces_index') }}">back to list</a>
+{% block child %}
+<section class="page">
+    <h1>Annonce #{{ annonce.id }} </h1>
 
-    <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}">edit</a>
+    <div class="container">
+        <div class="row">
+            <div >
+                <div class="card overflow-hidden text-center">
+                    {% if (annonce.imgUrl) %}
+                    <img src="{{ asset('uploads/image/' ~ annonce.imgUrl) }}" class="card-img-top img-fluid" alt="{{ annonce.titre }}">
+                    {% endif %}
+                    <div class="card-body p-0">
+                        <a href="#!.html" class="avatar xl rounded-circle bg-gray bg-opacity-10 p-1 position-relative mt-n8 d-block mx-auto">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="avatar-img img-fluid rounded-circle" alt="">
+                        </a>
+                        <h5 class="mb-0 pt-3">
+                            <a href="#!.html" class="text-reset">Noah Pierre</a>
+                        </h5>
+                        <span class="text-muted small d-block mb-4">Full stack developer</span>
+                    <div class="row mx-0 border-top border-bottom">
+                        <div class="col-6 text-center border-end py-3">
+                            <h5 class="mb-0"> {{annonce.dateCreation ? annonce.dateCreation|date('Y-m-d') : '' }} </h5>
+                            <small class="text-muted">Date de Création</small>
+                        </div>
+                        <div class="col-6 text-center py-3">
+                            <h5 class="mb-0"> {{annonce.dateModification ? annonce.dateModification|date('Y-m-d') : '' }} </h5>
+                            <small class="text-muted"> Date de Modification </small>
+                        </div>
+                    </div>
 
-    {{ include('annonces/_delete_form.html.twig') }}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small">Titre</span>
+                            <strong> {{ annonce.titre }} </strong>
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small">Description</span>
+                            <strong> {{ annonce.description }} </strong>
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small d-flex align-items-center">
+                                <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
+                                Options
+                            </span>
+                            <div class="text-end">
+                                <Button  class="btn btn-sm btn-primary">Collecter</Button>
+                                <a href="{{ path('app_annonces_index') }}" class="btn btn-sm btn-primary">Retour</a>
+                                <a href="{{ path('app_commentaire_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <div class="new-comment">
+                <a id="formulaire" href="{{ path('app_commentaire_new', {'annonceId': annonce.id})}}" class="btn btn-sm btn-primary">Commenter</a>
+            </div>
+            {% for c in annonce.joinCommentaire %}
+                <div id="comment" class="card overflow-hidden text-center">    
+                
+                    <li class="list-group-item px-3 d-flex align-items-center justify-content-center">
+                        Commentaire:
+                    </li>                
+                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <strong class="text-muted small"> Titre: </strong> {{c.titre}}
+                    </li>
+                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <strong class="text-muted small"> Contenu: </strong> {{c.contenu}}
+                    </li>
+                </div>
+            {% endfor %}
+        </ul>
+</section>
+
+    <style>
+        .new-comment{
+            display:flex;
+            justify-content: right;
+        }
+        #comment{
+            margin-top:15px
+        }
+
+        .avatar.xl {
+            width: 5rem;
+            height: 5rem;
+            font-size: 1.09375rem;
+        }
+
+        .avatar img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .bg-opacity-10 {
+            --bs-bg-opacity: 0.1;
+        }
+        .bg-gray {
+            --bs-bg-opacity: 1;
+            background-color: rgba(var(--bs-gray-rgb),var(--bs-bg-opacity))!important;
+        }
+        .p-1 {
+            padding: 0.25rem!important;
+        }
+        .mt-n5 {
+            margin-top: -1.5rem!important;
+        }
+        .mx-auto {
+            margin-right: auto!important;
+            margin-left: auto!important;
+        }
+        .position-relative {
+            position: relative!important;
+        }
+        .d-block {
+            display: block!important;
+        }
+        a {
+            color: var(--bs-link-color);
+            text-decoration: none;
+        }
+        .container {
+            width: 50%;
+            display:flex;
+            justify-content: center;
+        }
+        .row{
+            width:100% !important;
+            margin: auto;
+        }
+        #img {
+            width:60%;
+        }
+        #formulaire{
+            width: 34.25%;
+            margin-top:20px;
+            margin-bottom:5px
+        }
+    </style>
 {% endblock %}

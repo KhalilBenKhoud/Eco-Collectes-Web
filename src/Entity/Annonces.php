@@ -23,7 +23,7 @@ class Annonces
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $imgUrl = null;
 
     #[ORM\Column(type: 'datetime')]

@@ -212,6 +212,13 @@ footer {
     min-height: 80vh;
   }
 
+  .page{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+    min-height: 80vh;
+  }
   .dan {
     color: red;
     margin: 50px;

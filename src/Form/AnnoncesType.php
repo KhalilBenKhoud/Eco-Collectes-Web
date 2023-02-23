@@ -18,7 +18,9 @@ class AnnoncesType extends AbstractType
             ->add('description')
             ->add('imgUrl', FileType::class, 
             [
+                'required' => false,
                 'label' => 'Image',
+                'data_class' => null,
                 'constraints' => [
                     new File([
                         'mimeTypes' => [

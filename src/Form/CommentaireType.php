@@ -16,11 +16,7 @@ class CommentaireType extends AbstractType
         $builder
             ->add('titre')
             ->add('contenu')
-            ->add('annonces', EntityType::class, [
-                'class' => Annonces::class,
-                'choice_label' => 'titre',
-                'multiple' => false,
-            ])
+            
         ;
     }
 
