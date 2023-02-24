@@ -1,0 +1,55 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Invitation{% endblock %}
+
+{% block child %}
+
+
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+
+            <div class="profile-info">
+                <h5 class="mb-20 h5 text-blue">Les informations d'invitations</h5>
+                <ul>
+                    <li>
+                        <span>ID:</span>
+                        {{ invitation.id }}
+
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <label><span>Description:</span>
+                                </label>
+                            <textarea class="form-control" readonly>{{ invitation.description }}</textarea>
+                        </div>
+
+                    </li>
+                    <li>
+                        <span>Statut_invitation:</span>
+                        <span class="badge badge-warning" style="width: 8%;color: #0c0c0c">{{ invitation.statutInvitation }}</span>
+                    </li>
+                    <li>
+                        <span>Date_invitation:</span>
+                        {{ invitation.dateInvitation ? invitation.dateInvitation|date('Y-m-d H:i:s') : '' }}
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <a href="{{ path('app_invitation_edit', {'id': invitation.id}) }}" class="btn btn-info"><i class="ri-edit-2-fill"></i> Edit invitation</a>
+
+
+    <a href="{{ path('app_invitation_index') }}" class="btn btn-light"><i class="ri-arrow-go-back-line"></i> back to list</a>
+
+
+
+
+
+
+
+
+{% endblock %}

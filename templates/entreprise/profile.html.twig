@@ -1,0 +1,125 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Entreprise profile{% endblock %}
+
+{% block child %}
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+            <div class="pd-20 card-box height-100-p">
+                <h5 class="mb-20 h5 text-blue">CEO de l'entreprise information</h5>
+                <div class="profile-photo">
+
+                    <img src="{{ asset('back/vendors/images/'~ (entreprise.ceo.imageFilename==null ? 'photo1.jpg' : entreprise.ceo.imageFilename))   }}" alt="" class="avatar-photo">
+
+                </div>
+                <h5 class="text-center h5 mb-0">{{ entreprise.ceo.username }}</h5>
+                <p class="text-center text-muted font-14">
+                    {{ entreprise.ceo.email }}
+                </p>
+                <p class="text-center text-muted font-14">
+                    +216{{ entreprise.ceo.phone }}
+                </p>
+                <div class="profile-info">
+                    <h5 class="mb-20 h5 text-blue">Entreprise information</h5>
+                    <ul>
+                        <li>
+                            <span>Nom:</span>
+                            {{ entreprise.nom }}
+                        </li>
+                        <li>
+                            <span>Adresse:</span>
+                            {{ entreprise.adresse }}
+                        </li>
+                        <li>
+                            <span>Numero du telephone:</span>
+                            {{ entreprise.numtel }}
+                        </li>
+                        <li>
+                            <span>Date de creation:</span>
+                            {{ entreprise.dateCreation ? entreprise.dateCreation|date('Y-m-d') : '' }}
+                        </li>
+                        <li>
+                            <span>Adresse email:</span>
+                            {{ entreprise.adresseEmail }}
+                        </li>
+                        <li>
+                            <span>Type de entreprise:</span>
+                            {{ entreprise.typeEnterprise }}
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+            <div class="card-box height-100-p overflow-hidden">
+                <div class="profile-tab height-100-p">
+                    <div class="tab height-100-p">
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#setting" role="tab" aria-selected="false">Settings</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <!-- Setting Tab start -->
+                            <div class="tab-pane fade height-100-p active show" id="setting" role="tabpanel">
+                                <div class="profile-setting">
+                                    <form name="f" method="post">
+                                        <ul class="profile-edit-list row">
+                                            <li class="weight-500 col-md-12">
+                                                <h4 class="text-blue h5 mb-20">
+                                                    Edit Your Entreprise Setting
+                                                </h4>
+                                                <div class="form-group">
+                                                    <label>Nom</label>
+                                                    <input class="form-control form-control-lg" name="nom" value="{{ entreprise.nom }}" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Adresse</label>
+                                                    <input class="form-control form-control-lg" name="adresse" value="{{ entreprise.adresse }}" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Numero du telephone</label>
+                                                    <input class="form-control form-control-lg" name="numtel" value="{{ entreprise.numtel }}" type="number">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Date de creation</label>
+                                                    <input class="form-control form-control-lg date-picker" name="date_creation" value="{{ entreprise.dateCreation ? entreprise.dateCreation|date('Y-m-d') : '' }}" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Adresse email</label>
+                                                    <input class="form-control form-control-lg date-picker" name="adresse_email" value="{{ entreprise.adresseEmail }}" type="email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Type du contrat</label>
+                                                    <select
+                                                            class="form-control selectpicker"
+                                                            title="Selectionez le type du contrat"
+                                                            name="type_enterprise"
+                                                            id="type_enterprise"
+                                                    >
+                                                        <option value="Entreprise individuelle">Entreprise individuelle</option>
+                                                        <option value="Société en commandite">Société en commandite</option>
+                                                        <option value="Société anonyme" selected>Société anonyme</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-0">
+                                                    <input type="submit" class="btn btn-outline-warning" value="Update Information">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Setting Tab End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+{% endblock %}

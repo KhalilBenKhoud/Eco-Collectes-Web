@@ -1,0 +1,153 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Contrat{% endblock %}
+
+{% block child %}
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+
+            <div class="profile-info">
+                <h5 class="mb-20 h5 text-blue">Details du contrat</h5>
+                <ul>
+                    <li>
+                        <span>Date debut:</span>
+                        {{ contrat.dateDebut ? contrat.dateDebut|date('Y-m-d') : '' }}
+                    </li>
+                    <li>
+                        <span>Date fin:</span>
+                        {{ contrat.dateFin ? contrat.dateFin|date('Y-m-d') : '' }}
+                    </li>
+                    <li>
+                        <span>Statut du contrat:</span>
+                        <span class="badge badge-warning" style="width: 8%;color: #0c0c0c">{{ contrat.statutContrat }}</span>
+                    </li>
+                    <li>
+                        <span>Type du contrat:</span>
+                        {{ contrat.typeContrat }}
+                    </li>
+                    <li>
+                        <span>Montant:</span>
+                        {{ contrat.typeContrat }} TND
+                    </li>
+                    <li>
+                        <span>Description:</span>
+                        {{ contrat.description|raw }}
+                    </li>
+                </ul>
+            </div>
+            <div class="profile-social">
+                <div class="profile-photo">
+                    {% if contrat.collecteur %}
+                    <img src="{{ asset('back/vendors/images/photo1.jpg') }}" alt="" class="avatar-photo">
+                        <h5 class="text-center h5 mb-0">{{ contrat.collecteur.username}}</h5>
+                        <p class="text-center text-muted font-14">
+                            {{ contrat.collecteur.phone }}
+                        </p>
+                    {% else %}
+                    <a href="#"
+                       class="btn-block"
+                       data-backdrop="static"
+                       data-toggle="modal"
+                       data-target="#login-modal"
+                       style="font-size: 50px"
+                       type="button"><i class="icon-copy dw dw-add-user"></i></a>
+                    <!-- Login modal -->
+
+                    <div
+                            class="modal fade"
+                            id="login-modal"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="myLargeModalLabel"
+                            aria-hidden="true"
+                    >
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div
+                                        class="login-box bg-white box-shadow border-radius-10"
+                                >
+                                    <div class="login-title">
+                                        <h2 class="text-center text-primary">
+                                            Invite un collecteur
+                                        </h2>
+                                    </div>
+                                    <form name="f" method="post">
+
+                                        <div class="form-group">
+                                            <label>Collecteur</label>
+                                            <select
+                                                    class="form-control selectpicker"
+                                                    title="Selectionez un collecteur"
+                                                    name="collecteur"
+                                                    id="collecteur"
+                                            >
+
+                                                {% for user in users %}
+                                                <option value="{{ user.id }}">{{ user.username }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea
+
+                                                    class="form-control form-control-lg"
+                                                    name="description"
+                                                    id="description"
+                                            ></textarea>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-2">
+                                                    <!--
+                                                    use code for form submit
+                                                    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+                                                -->
+                                                    <button
+                                                            class="btn btn-primary btn-lg btn-block"
+                                                            type="submit"
+                                                    >Invite</button
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-0">
+                                                    <!--
+                                                    use code for form submit
+                                                    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+                                                -->
+                                                    <a
+                                                            class="btn btn-light btn-lg btn-block"
+                                                             data-dismiss="modal" aria-hidden="true"
+                                                    >Close</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <a href="{{ path('app_contrat_edit', {'id': contrat.id}) }}" class="btn btn-warning"><i class="ri-edit-2-fill"></i> Modifier ce contrat</a>
+    <a href="{{ path('app_contrat_index') }}" class="btn btn-lg btn-primary"><i class="ri-arrow-go-back-line"></i> retourner au list</a>
+
+{% endblock %}

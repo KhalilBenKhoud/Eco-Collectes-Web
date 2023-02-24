@@ -1,0 +1,46 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Entreprise{% endblock %}
+
+{% block child %}
+    <h1>Entreprise</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entreprise.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ entreprise.nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ entreprise.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Numtel</th>
+                <td>{{ entreprise.numtel }}</td>
+            </tr>
+            <tr>
+                <th>Date_creation</th>
+                <td>{{ entreprise.dateCreation ? entreprise.dateCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Adresse_email</th>
+                <td>{{ entreprise.adresseEmail }}</td>
+            </tr>
+            <tr>
+                <th>Type_enterprise</th>
+                <td>{{ entreprise.typeEnterprise }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_entreprise_index') }}">back to list</a>
+
+    <a href="{{ path('app_entreprise_edit', {'id': entreprise.id}) }}">edit</a>
+
+    {{ include('entreprise/_delete_form.html.twig') }}
+{% endblock %}

@@ -75,12 +75,13 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $authenticator->authenticateUser(
+            if($form->get('roles')->getData()[0]=="ROLE_ENTREPRISE"){
+                return $this->redirectToRoute('app_entreprise_new', array('id' => $user->getId()));
+            }
+           return $authenticator->authenticateUser(
                 $user, 
                 $formAuthenticator, 
-                $request); 
-
-                
+                $request);
 
             return $this->redirectToRoute('app_profile');
         }
@@ -89,6 +90,7 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
             
         ]);
+
     }
 
  
