@@ -56,8 +56,8 @@
                             </span>
                             <div class="text-end">
                                 <Button  class="btn btn-sm btn-primary">Collecter</Button>
-                                <a href="{{ path('app_annonces_index') }}" class="btn btn-sm btn-primary">Retour</a>
-                                <a href="{{ path('app_commentaire_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                                <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
+                                <a href="{{ path('app_annonces_index') }}" class="btn btn-sm btn-danger">Retour</a>
                             </div>
                         </li>
                     </ul>

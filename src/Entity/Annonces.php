@@ -23,7 +23,7 @@ class Annonces
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $imgUrl = null;
 
     #[ORM\Column(type: 'datetime')]
@@ -104,6 +104,22 @@ class Annonces
         return $this;
     }
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDatesOnCreate(): void
+    {
+        $this->dateCreation = new \DateTime();
+        $this->dateModification = new \DateTime();
+    }
+
+    
+    #[ORM\PrePersist]
+    public function setDateOnUpdate(): void
+    {
+        $this->dateCreation = new \DateTime();
+        $this->dateModification = new \DateTime();
+    }
     #[ORM\PreUpdate]
     public function setUpdatedAt(): self
     {

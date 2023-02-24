@@ -11,25 +11,42 @@
             {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'form' }}) }}
 
                 <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Titre:</span>
-                        <strong class="inp">
-                            {{ form_widget(form.titre, {'attr': {'class':'form-control'}}) }}
-                        </strong>
+                    <span class="text-muted small">Titre:</span>
+                    <strong class="inp">
+                        {{ form_widget(form.titre, {'attr': {'class':'form-control'}}) }}
+                        <div class="err">
+                            {% if form_errors(form.titre) %}
+                                <div class="alert alert-danger">{{ form_errors(form.titre) }}</div>
+                            {% endif %}
+                        </div>
+                    </strong>
                 </li>
                 <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Contenu:</span>
-                        <strong class="inp">
-                            {{ form_widget(form.contenu, {'attr': {'class':'form-control'}}) }}
-                        </strong>
+                    <span class="text-muted small">Contenu:</span>
+                    <strong class="inp">
+                        {{ form_widget(form.contenu, {'attr': {'class':'form-control'}}) }}
+                        <div class="err">
+                            {% if form_errors(form.contenu) %}
+                                <div class="alert alert-danger">{{ form_errors(form.contenu) }}</div>
+                            {% endif %}
+                        </div>
+                    </strong>
                 </li>
-                <button id="bton" type='submit' class="btn btn-sm btn-primary">submit</button>
-                <a id="bton" class="btn btn-sm btn-primary" href="{{ path('app_commentaire_index') }}">back to list</a>
-
+                <button id="bton" type='submit' class="btn btn-sm btn-success">Sauvegarder</button>
             {{ form_end(form) }}
+                <div class="testBtn">
+                    <a id="bton" class="btn btn-sm btn-danger" href="{{ path('app_annonces_index')}}">Annuler</a>
+                </div>
         </div>
     </div>
+        
 </section>
     <style>
+        .testBtn{
+            display:flex;
+            justify-content:center;
+            margin-top:-10px;    
+        }
         .inp{
             width:70%;
         }

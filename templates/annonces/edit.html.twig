@@ -1,13 +1,171 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Annonces{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Annonces</h1>
-
-    {{ include('annonces/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_annonces_index') }}">back to list</a>
-
-    {{ include('annonces/_delete_form.html.twig') }}
+    {{ parent() }}
 {% endblock %}
+
+
+{% block title %}
+    New Annonces
+{% endblock %}
+
+{% block child %}
+
+<section class="page">
+    <h1> Créer une Annonce</h1>
+    <div class="container">
+        <div class="row">
+            <div>
+                <!--Card-->
+                <div class="card overflow-hidden text-center">
+                        <img id="photo" src="" class="card-img-top img-fluid" alt="">
+            
+                    <!--Card body-->
+                    <div class="card-body p-0">
+                    <!--avatar-->
+                    <a href="#!.html" class="avatar xl rounded-circle bg-gray bg-opacity-10 p-1 position-relative mt-n8 d-block mx-auto">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="avatar-img img-fluid rounded-circle" alt="">
+                    </a>
+                    <h5 class="mb-0 pt-3">
+                        <a href="#!.html" class="text-reset">Noah Pierre</a>
+                    </h5>
+                    <span class="text-muted small d-block mb-4">Full stack developer</span>
+                    <div class="row mx-0 border-top border-bottom">
+                        <div class="col-6 text-center border-end py-3">
+                        <h5 class="mb-0">2345</h5>
+                        <small class="text-muted">Followers</small>
+                        </div>
+                        <div class="col-6 text-center py-3">
+                        <h5 class="mb-0">54</h5>
+                        <small class="text-muted">Following</small>
+                        </div>
+                    </div>
+                    {{ form_start(form, {'action': path('app_annonces_edit', {'id':annonce.id}), 'attr': {'novalidate': 'novalidate', 'class':'form' }}) }}
+
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Titre</span>
+                        <strong>
+                            {{ form_widget(form.titre, {'attr': {'class':'form-control'}}) }}
+                            {% if form_errors(form.titre) %}
+                                <div class="alert alert-danger">{{ form_errors(form.titre) }}</div>
+                            {% endif %}
+                        </strong>
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Description</span>
+                        <strong>
+                            {{ form_widget(form.description, {'attr': {'class':'form-control'}}) }}
+                            {% if form_errors(form.titre) %}
+                                <div class="alert alert-danger">{{ form_errors(form.description) }}</div>
+                            {% endif %}
+                        </strong>
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small d-flex align-items-center">
+                                <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
+                                Image
+                            </span>
+                            <div id='img'>
+                                {{ form_widget(form.imgUrl, {'attr': {'class':'form-control'}})}}
+                            </div>
+                            {% if form_errors(form.titre) %}
+                                <div class="alert alert-danger">{{ form_errors(form.imgUrl) }}</div>
+                            {% endif %}
+                        </li>
+                        <div class="test text-end">
+                            <button id="bton" type='submit' class=" btn btn-sm btn-primary"> Sauvegarder </button>
+                            <button id="bton" class=" btn btn-sm btn-primary" href="{{ path('app_annonces_index') }}"> Annuler </button>
+                        </div>
+                        {{form_end(form)}}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <style>
+        .test{
+            display: flex;
+            justify-content: center;
+        }
+
+        #bton{
+            width:40%;
+            margin: 10px
+
+        }
+        #photo{
+            width:80%
+        }
+
+        .avatar.xl {
+            width: 5rem;
+            height: 5rem;
+            font-size: 1.09375rem;
+        }
+
+        .avatar img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .bg-opacity-10 {
+            --bs-bg-opacity: 0.1;
+        }
+        .bg-gray {
+            --bs-bg-opacity: 1;
+            background-color: rgba(var(--bs-gray-rgb),var(--bs-bg-opacity))!important;
+        }
+        .p-1 {
+            padding: 0.25rem!important;
+        }
+        .mt-n5 {
+            margin-top: -1.5rem!important;
+        }
+        .mx-auto {
+            margin-right: auto!important;
+            margin-left: auto!important;
+        }
+        .position-relative {
+            position: relative!important;
+        }
+        .d-block {
+            display: block!important;
+        }
+        a {
+            color: var(--bs-link-color);
+            text-decoration: none;
+        }
+        .container {
+            width: 50%;
+            display:flex;
+            justify-content: center;
+        }
+        .row{
+            width:100% !important;
+            margin: auto;
+        }
+        #img {
+            width:60%;
+        }
+    </style>
+
+{% endblock %}
+

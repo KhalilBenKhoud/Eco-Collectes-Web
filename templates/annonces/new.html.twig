@@ -49,13 +49,23 @@
                         <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
                         <span class="text-muted small">Titre</span>
                         <strong>
-                            {{ form_widget(form.titre, {'attr': {'class':'form-control'}}) }}
+                            {{ form_widget(form.titre, {'attr': {'class':'form-control'}})}}
+                            <div class="err">
+                                {% if form_errors(form.titre) %}
+                                    <div class="alert alert-danger">{{ form_errors(form.titre) }}</div>
+                                {% endif %}
+                            </div>
                         </strong>
                         </li>
                         <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
                         <span class="text-muted small">Description</span>
                         <strong>
-                            {{ form_widget(form.description, {'attr': {'class':'form-control'}}) }}
+                                {{ form_widget(form.description, {'attr': {'class':'form-control'}}) }}
+                            <div>
+                                {% if form_errors(form.description) %}
+                                    <div class="alert alert-danger">{{ form_errors(form.description) }}</div>
+                                {% endif %}
+                            <div>
                         </strong>
                         </li>
                         <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
@@ -64,14 +74,21 @@
                                 Image
                             </span>
                             <div id='img'>
-                                {{ form_widget(form.imgUrl, {'attr': {'class':'form-control'}})}}
+                            {{ form_widget(form.imgUrl, {'attr': {'class':'form-control'}})}}
+                                <div class="err">
+                                    {% if form_errors(form.imgUrl) %}
+                                        <div class="alert alert-danger">{{ form_errors(form.imgUrl) }}</div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </li>
                         <div class="test text-end">
-                            <button id="bton" type='submit' class=" btn btn-sm btn-primary"> Sauvegarder </button>
-                            <button id="bton" class=" btn btn-sm btn-primary" href="{{ path('app_annonces_index') }}"> Annuler </button>
+                            <button id="bton" type='submit' class=" btn btn-sm btn-success"> Sauvegarder </button>
                         </div>
                         {{form_end(form)}}
+                        <div class='testBtn'>
+                            <a id="bton" class=" btn btn-sm btn-danger " href="{{ path('app_annonces_index') }}"> Annuler </a>
+                        </div>
                     </ul>
                     </div>
                 </div>
@@ -81,6 +98,14 @@
 
     
     <style>
+        .testBtn{
+            display:flex;
+            justify-content:center;
+            margin-top:-12.5px;    
+        }
+        .err{
+            margin-top:5px;
+        }
         .test{
             display: flex;
             justify-content: center;
