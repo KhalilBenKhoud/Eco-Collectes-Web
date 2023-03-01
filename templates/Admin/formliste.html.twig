@@ -19,8 +19,10 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Titre</th>
-                                            <th>Contenu</th>
+                                            <th>Titre-article</th>
+                                            <th>categorie-article</th>
+                                          <th>piece_jointe </th>
+                                            <th>Contenu-article</th>
                                             <th>actions</th>
                                         </tr>
                                     </thead>
@@ -28,6 +30,8 @@
                                     {% for article in articles %}
                                         <tr>
                                             <td>{{ article.titre }}</td>
+                                            <td>{{ article.categorie}}</td>
+                                            <td>{{ article.photo }}</td>
                                             <td>{{ article.contenu }}</td>
                                             <td>
                                                  <a href="{{ path('app_article_show', {'id': article.id}) }}">voir</a>

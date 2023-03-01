@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
@@ -16,6 +18,8 @@ class Categorie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "categorie Est Obligatoire")]
+
     private ?string $ref_categorie = null;
 
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Article::class)]
@@ -71,5 +75,9 @@ class Categorie
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->ref_categorie;
     }
 }

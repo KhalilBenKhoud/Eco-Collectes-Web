@@ -1,11 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}New Commentaire{% endblock %}
 
 {% block body %}
-    <h1>ajouter nouveau Commentaire</h1>
+
+<body class="sb-nav-fixed">
+            <div id="layoutSidenav_content">
+                <main>
+                <h1>ajouter nouveau Commentaire</h1>
 
     {{ include('commentaire/_form.html.twig') }}
 
     <a href="{{ path('app_commentaire_index') }}">back to list</a>
+                </main>
+            </div>
+    
 {% endblock %}

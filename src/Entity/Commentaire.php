@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommentaireRepository;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,6 +22,14 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'Relation')]
     private ?Article $article = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_de_commentaire = null;
+
+    public function __construct()
+    {
+        $this->date_de_commentaire = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -47,6 +56,18 @@ class Commentaire
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getDateDeCommentaire(): ?\DateTimeInterface
+    {
+        return $this->date_de_commentaire;
+    }
+
+    public function setDateDeCommentaire(\DateTimeInterface $date_de_commentaire): self
+    {
+        $this->date_de_commentaire = $date_de_commentaire;
 
         return $this;
     }

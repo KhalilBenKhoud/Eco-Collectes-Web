@@ -27,16 +27,29 @@
                                             <td>{{ article.titre }}</td>
                                         </tr>
                                         <tr>
+                                            <th>piece_jointe </th>
+                                            <td>
+                                             {% if article.photo %}
+                    <img src="{{ asset('photo_directory/photo/' ~ article.photo) }}" alt="photo">
+                    {% else %}
+                    <p>No photo uploaded</p>
+                    {% endif %}                   
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
                                             <th>Contenu</th>
                                             <td>{{ article.contenu }}</td>
                                         </tr>
-                                    </tbody>
-                                </table>
+
+                            </tbody>
+                                
+                                  
+                            </table>
                             </div>
                         <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
                          {{ include('article/_delete_form.html.twig') }}   
-                        <button onclick="location.href='http://localhost/Eco-Collectes-Web/public/index.php/article/admin'" class="btn">back to list</button>
-
+                        <button onclick="location.href='http://localhost/Eco-Collectes-Web/public/index.php/article/admin' " class="btn">back to list</button>
                             </div>
                         </div>
                     </div>

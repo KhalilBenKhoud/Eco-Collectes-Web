@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Commentaire;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,14 +29,29 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $articleRepository->save($article, true);
+            $photoFile = $form->get('photo')->getData();
+            if ($photoFile) {
+                $newFilename = uniqid() . '.' . $photoFile->guessExtension();
 
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+                // Move the file to a directory where your application can access it
+                $photoFile->move(
+                    $this->getParameter('photo_directory'),
+                    $newFilename
+                );
+
+                // Update the entity with the photo filename
+                $article->setPhoto($newFilename);
+
+
+            }
+            $articleRepository->save($article, true);
+            return $this->redirectToRoute('forum_', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/new.html.twig', [
             'article' => $article,
             'form' => $form,
+
         ]);
     }
 
@@ -47,6 +63,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'app_article_show2', methods: ['GET'])]
+
+
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, ArticleRepository $articleRepository): Response
     {
@@ -54,6 +73,21 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $photoFile = $form->get('photo')->getData();
+            if ($photoFile) {
+                $newFilename = uniqid() . '.' . $photoFile->guessExtension();
+
+                // Move the file to a directory where your application can access it
+                $photoFile->move(
+                    $this->getParameter('photo_directory'),
+                    $newFilename
+                );
+
+                // Update the entity with the photo filename
+                $article->setPhoto($newFilename);
+
+
+            }
             $articleRepository->save($article, true);
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);

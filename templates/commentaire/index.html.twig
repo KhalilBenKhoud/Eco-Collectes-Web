@@ -1,9 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}Commentaire index{% endblock %}
 
 {% block body %}
-    <h1>Commentaire</h1>
+    <body class="sb-nav-fixed">
+            <div id="layoutSidenav_content">
+                <main>
+                <h1>Commentaire</h1>
 
     <table class="table">
         <thead>
@@ -30,4 +33,7 @@
     </table>
 
     <a href="{{ path('app_commentaire_new') }}">ajouter nouveau commentaire</a>
+                </main>
+            </div>
+
 {% endblock %}

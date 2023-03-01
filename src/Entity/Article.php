@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,23 +19,39 @@ class Article
     private ?int $id = null;
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le Titre Est Obligatoire")]
+    #[Assert\Length(
+    min: 2,
+    max: 20,
+    minMessage: 'Titre must be at least {{ limit }} characters long',
+    maxMessage: 'Titre first name cannot be longer than {{ limit }} characters',
+    )]
+
     private ?string $titre = null;
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "IL Faut écrire qlq chose")]
+    #[Assert\Length(
+    min: 2,
+    max: 50,
+    minMessage: 'description must be at least {{ limit }} characters long',
+    maxMessage: 'description  cannot be longer than {{ limit }} characters',
+    )]
     private ?string $contenu = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Commentaire::class)]
     private Collection $Relation;
-
-    #[ORM\Column(length: 255)]
-    private ?string $category = null;
-
     #[ORM\ManyToOne(inversedBy: 'ref')]
     private ?Categorie $categorie = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_de_creation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
 
     public function __construct()
     {
         $this->Relation = new ArrayCollection();
+        $this->date_de_creation = new \DateTime();
     }
 
     public function getId(): ?int
@@ -101,17 +119,6 @@ class Article
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
 
     public function getCategorie(): ?Categorie
     {
@@ -121,6 +128,30 @@ class Article
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getDateDeCreation(): ?\DateTimeInterface
+    {
+        return $this->date_de_creation;
+    }
+
+    public function setDateDeCreation(\DateTimeInterface $date_de_creation): self
+    {
+        $this->date_de_creation = $date_de_creation;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
