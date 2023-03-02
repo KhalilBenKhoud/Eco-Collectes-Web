@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/entreprise')]
 class EntrepriseController extends AbstractController
@@ -23,9 +24,9 @@ class EntrepriseController extends AbstractController
     }
 
     #[Route('/profile_entreprise', name: 'app_profile_entreprise_index', methods: ['GET','POST'])]
-    public function profile( Request $request,EntrepriseRepository $entrepriseRepository,UserRepository $userRepository): Response
+    public function profile( Request $request,Security $security,EntrepriseRepository $entrepriseRepository): Response
     {
-        $entreprise=$entrepriseRepository->findOneBy(["ceo"=>$userRepository->find(11)]);
+        $entreprise=$entrepriseRepository->findOneBy(["ceo"=>$security->getUser()->getId()]);
         if ($request->isMethod('post')) {
             $entreprise->setNom($request->get('nom'));
             $entreprise->setAdresse($request->get('adresse'));

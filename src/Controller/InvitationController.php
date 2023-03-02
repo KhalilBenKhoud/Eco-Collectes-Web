@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Contrat;
 use App\Entity\Invitation;
 use App\Form\InvitationType;
+use App\Repository\ContratRepository;
 use App\Repository\EntrepriseRepository;
 use App\Repository\InvitationRepository;
 use App\Repository\UserRepository;
@@ -11,14 +13,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/invitation')]
 class InvitationController extends AbstractController
 {
     #[Route('/', name: 'app_invitation_index', methods: ['GET'])]
-    public function index(InvitationRepository $invitationRepository,EntrepriseRepository $entrepriseRepository,UserRepository $userRepository): Response
+    public function index(Security $security,EntrepriseRepository $entrepriseRepository): Response
     {
-        $entreprise=$entrepriseRepository->findOneBy(["ceo"=>$userRepository->find(11)]);
+        $entreprise=$entrepriseRepository->findOneBy(["ceo"=>$security->getUser()->getId()]);
         $invitations= $this->getDoctrine()->getRepository(Invitation::class)
             ->createQueryBuilder('i')
             ->innerJoin('i.contrat', 'c')
@@ -29,6 +32,44 @@ class InvitationController extends AbstractController
         return $this->render('invitation/index.html.twig', [
             'invitations' => $invitations,
         ]);
+    }
+
+    #[Route('/app_invitation_search', name: 'app_invitation_search', methods: ['GET','POST'])]
+    public function searchinvitation(Request $request,Security $security,ContratRepository $contratRepository,EntrepriseRepository $entrepriseRepository): Response
+    {
+        $entreprise=$entrepriseRepository->findOneBy(["ceo"=>$security->getUser()->getId()]);
+        $invitations = $this->getDoctrine()->getManager()->getRepository(Invitation::class)->findInvitationByNameDQL($request->get('nom'),$entreprise);
+        return $this->render('invitation/search.html.twig', array(
+            'invitations' => $invitations,
+        ));
+    }
+
+    #[Route('/app_invitation_filter', name: 'app_invitation_filter', methods: ['GET','POST'])]
+    public function filterinvitation(Request $request,Security $security,ContratRepository $contratRepository,EntrepriseRepository $entrepriseRepository): Response
+    {
+        $sea = $request->get('dat');
+        $entreprise=$entrepriseRepository->findOneBy(["ceo"=>$security->getUser()->getId()]);
+        $invitations= $this->getDoctrine()->getRepository(Invitation::class)
+            ->createQueryBuilder('i')
+            ->innerJoin('i.contrat', 'c')
+            ->where('c.enterprise = :entreprise')
+            ->andWhere('i.statut_invitation= :statut')
+            ->setParameter('entreprise', $entreprise)
+            ->setParameter('statut', $sea)
+            ->getQuery()
+            ->getResult();
+        if($sea=="Tous"){
+            $invitations= $this->getDoctrine()->getRepository(Invitation::class)
+                ->createQueryBuilder('i')
+                ->innerJoin('i.contrat', 'c')
+                ->where('c.enterprise = :entreprise')
+                ->setParameter('entreprise', $entreprise)
+                ->getQuery()
+                ->getResult();
+        }
+        return $this->render('invitation/filtrage.html.twig', array(
+            'invitations' => $invitations,
+        ));
     }
 
     #[Route('/new', name: 'app_invitation_new', methods: ['GET', 'POST'])]

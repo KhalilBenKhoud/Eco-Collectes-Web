@@ -39,6 +39,15 @@ class InvitationRepository extends ServiceEntityRepository
         }
     }
 
+    public function findInvitationByNameDQL($nom,$entreprise)
+    {
+        $Query=$this->getEntityManager()
+            ->createQuery("SELECT i FROM App\Entity\Invitation i JOIN App\Entity\Contrat c JOIN App\Entity\User u WHERE (i.description  LIKE :nom OR u.username LIKE :nom) and c.enterprise = :entreprise")
+            ->setParameter('nom','%'.$nom.'%')
+            ->setParameter('entreprise',$entreprise);
+        return $Query->getResult();
+    }
+
 //    /**
 //     * @return Invitation[] Returns an array of Invitation objects
 //     */

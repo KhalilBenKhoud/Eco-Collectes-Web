@@ -10,8 +10,27 @@
             <div class="card-body">
                 <h5 class="card-title">Tableau du contrat</h5>
 
+                <div class="row">
+                    <div class="col-sm-12 col-md-10">
+                        <div id="DataTables_Table_0_filter" ><label>Search:
+                                <input type="search" id="nomcontrat" onkeyup="actionnom()" style="width:500px;" class="form-control " placeholder="Search..."></label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-2">
+                        <div id="DataTables_Table_0_filter"><label>Statut du Contrat:
+                                <select class="custom-select col-12" id="status" onchange="changenom()">
+                                    <option selected="Tous">Tous</option>
+                                    <option value="En Attente">En Attente</option>
+                                    <option value="Expirer">Expirer</option>
+                                    <option value="Actif">Actif</option>
+                                </select></label>
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <!-- Default Table -->
-                <table class="table">
+                <table class="table" id="show">
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -61,11 +80,33 @@
 
 
 
+
     </div>
-
-
-
     <a href="{{ path('app_contrat_new') }}"><button type="submit" class="btn btn-primary">Create new</button></a>
+    <script>
+        function changenom(){
+            var sch=$("#status").val();
+            $.ajax({
+                url: "{{ path('app_contrat_filter') }}",
+                data:{dat: sch},
+                type: "POST",
+                success: function(data){
+                    $('#show').html(data).show();
+                }
+            });
+        }
+        function actionnom(){
+            var sch=$("#nomcontrat").val();
+            $.ajax({
+                url: "{{ path('app_contrat_search') }}",
+                data:{nom: sch},
+                type: "POST",
+                success: function(data){
+                    $('#show').html(data).show();
+                }
+            });
+        }
+    </script>
 {% endblock %}
 
 

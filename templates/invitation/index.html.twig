@@ -9,9 +9,26 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Tableau d'invitation</h5>
+            <div class="row">
+                <div class="col-sm-12 col-md-10"><div id="DataTables_Table_0_filter" ><label>Search:
+                            <input type="search" id="nominvitation" onkeyup="actionnom()" style="width:500px;" class="form-control " placeholder="Search..."></label>
+                    </div>
+                </div>
 
+                <div class="col-sm-12 col-md-2">
+                    <div id="DataTables_Table_0_filter"><label>Statut d'Invitation:
+                            <select class="custom-select col-12" id="status" onchange="changenom()">
+                                <option selected="Tous">Tous</option>
+                                <option value="En attente">En attente</option>
+                                <option value="Refuse">Refuse</option>
+                                <option value="Accepte">Accepte</option>
+                            </select></label>
+                    </div>
+                </div>
+            </div>
+            <br />
 
-            <table class="table">
+            <table class="table" id="show">
         <thead>
             <tr>
                 <th>Id</th>
@@ -64,7 +81,30 @@
         {% endfor %}
         </tbody>
     </table>
-
  <a href="{{ path('app_invitation_new') }}"><button type="submit" class="btn btn-primary">Create new</button></a>
+            <script>
+                function changenom(){
+                    var sch=$("#status").val();
+                    $.ajax({
+                        url: "{{ path('app_invitation_filter') }}",
+                        data:{dat: sch},
+                        type: "POST",
+                        success: function(data){
+                            $('#show').html(data).show();
+                        }
+                    });
+                }
+                function actionnom(){
+                    var sch=$("#nominvitation").val();
+                    $.ajax({
+                        url: "{{ path('app_invitation_search') }}",
+                        data:{nom: sch},
+                        type: "POST",
+                        success: function(data){
+                            $('#show').html(data).show();
+                        }
+                    });
+                }
+            </script>
 {% endblock %}
 

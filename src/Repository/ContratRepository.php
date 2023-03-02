@@ -39,6 +39,15 @@ class ContratRepository extends ServiceEntityRepository
         }
     }
 
+    public function findContratByNameDQL($nom,$entreprise)
+    {
+        $Query=$this->getEntityManager()
+            ->createQuery("SELECT c FROM App\Entity\Contrat c JOIN App\Entity\User u WHERE (c.type_contrat LIKE :nom OR c.montant LIKE :nom OR u.username LIKE :nom) and c.enterprise = :entreprise")
+            ->setParameter('nom','%'.$nom.'%')
+            ->setParameter('entreprise',$entreprise);
+        return $Query->getResult();
+    }
+
 //    /**
 //     * @return Contrat[] Returns an array of Contrat objects
 //     */
