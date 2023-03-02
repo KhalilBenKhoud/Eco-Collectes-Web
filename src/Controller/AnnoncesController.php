@@ -13,10 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/annonces')]
 class AnnoncesController extends AbstractController
 {
-    #[Route('/', name: 'app_annonces_index', methods: ['GET'])]
-    public function index(AnnoncesRepository $annoncesRepository): Response
+    #[Route('/index', name: 'app_annonces_index', methods: ['GET'])]
+    public function index(AnnoncesRepository $annoncesRepository ): Response
     {
         return $this->render('annonces/index.html.twig', [
+            'annonces' => $annoncesRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/view', name: 'app_annonces_front', methods: ['GET'])]
+    public function front(AnnoncesRepository $annoncesRepository): Response
+    {
+        return $this->render('annonces/AnnoncesF.html.twig', [
             'annonces' => $annoncesRepository->findAll(),
         ]);
     }
@@ -65,6 +73,7 @@ class AnnoncesController extends AbstractController
         $form = $this->createForm(AnnoncesType::class, $annonce);
         $form->handleRequest($request);
     
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $annonce->setDateModification(new \DateTimeImmutable());
             $annoncesRepository->save($annonce, true);

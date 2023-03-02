@@ -35,6 +35,9 @@ class Annonces
     #[ORM\OneToMany(mappedBy: 'annonces', targetEntity: Commentaire::class)]
     private Collection $joinCommentaire;
 
+    #[ORM\Column]
+    private ?int $rating = null;
+
     public function __construct()
     {
         $this->joinCommentaire = new ArrayCollection();
@@ -154,6 +157,18 @@ class Annonces
                 $joinCommentaire->setAnnonces(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }
