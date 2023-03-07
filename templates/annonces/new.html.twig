@@ -31,9 +31,8 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="avatar-img img-fluid rounded-circle" alt="">
                     </a>
                     <h5 class="mb-0 pt-3">
-                        <a href="#!.html" class="text-reset">Noah Pierre</a>
-                    </h5>
-                    <span class="text-muted small d-block mb-4">Full stack developer</span>
+                        <a href="#!.html" class="text-reset"> {{user.username}} </a>
+                    </h5>   
                     <div class="row mx-0 border-top border-bottom">
                         <div class="col-6 text-center border-end py-3">
                         <h5 class="mb-0">2345</h5>
@@ -67,6 +66,7 @@
                                 {% endif %}
                             <div>
                         </strong>
+                        
                         </li>
                         <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
                             <span class="text-muted small d-flex align-items-center">
@@ -87,7 +87,7 @@
                         </div>
                         {{form_end(form)}}
                         <div class='testBtn'>
-                            <a id="bton" class=" btn btn-sm btn-danger " href="{{ path('app_annonces_index') }}"> Annuler </a>
+                            <a id="bton" class=" btn btn-sm btn-danger " href="{{ path('app_annonces_front') }}"> Annuler </a>
                         </div>
                     </ul>
                     </div>

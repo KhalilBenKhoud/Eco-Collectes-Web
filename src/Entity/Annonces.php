@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: AnnoncesRepository::class)]
 #[HasLifecycleCallbacks]
+/**
+ * Summary of Annonces
+ */
 class Annonces
 {
     #[ORM\Id]
@@ -35,12 +38,31 @@ class Annonces
     #[ORM\OneToMany(mappedBy: 'annonces', targetEntity: Commentaire::class)]
     private Collection $joinCommentaire;
 
+    #[ORM\ManyToOne(inversedBy: 'joinAnnonces')]
+    private ?User $joinUser = null;
+
     #[ORM\Column]
-    private ?int $rating = null;
+    private ?int $rating;
 
     public function __construct()
     {
         $this->joinCommentaire = new ArrayCollection();
+    }
+
+    /**
+     * Summary of getJoinUser
+     * @return User|null
+     */
+    public function getJoinUser(): ?User
+    {
+        return $this->joinUser;
+    }
+
+    public function setJoinUser(?User $user): self
+    {
+        $this->joinUser = $user;
+
+        return $this;
     }
 
     public function getId(): ?int

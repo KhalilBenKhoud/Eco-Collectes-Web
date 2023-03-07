@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Doctrine\Common\Collections\Collection;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -28,7 +31,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(message:"the email is not valid mail")]
     private ?string $email = null;
 
-    
+    #[ORM\OneToMany(mappedBy: 'joinUser', targetEntity: Annonces::class)]
+    private Collection $joinAnnonces;
 
     #[ORM\Column]
     private array $roles = [];
@@ -38,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    public function __construct()
+    {
+        $this->joinAnnonces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,4 +139,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function getJoinAnnonces(): Collection
+    {
+        return $this->joinAnnonces;
+    }
+
+    public function addJoinAnnonces(Annonces $joinAnnonces): self
+    {
+        if (!$this->joinAnnonces->contains($joinAnnonces)) {
+            $this->joinAnnonces->add($joinAnnonces);
+            $joinAnnonces->setAnnonces($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJoinAnnonces(Annonces $joinAnnonces): self
+    {
+        if ($this->joinAnnonces->removeElement($joinAnnonces)) {
+            // set the owning side to null (unless already changed)
+            if ($joinAnnonces->getAnnonces() === $this) {
+                $joinAnnonces->setAnnonces(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

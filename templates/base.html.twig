@@ -19,7 +19,7 @@
     </head>
     <body>
         {% block body %}
-          <header class="header-page">
+          <header class="header-page" data-aos="fade-up">
            <nav class="navbar">
            <div class="logo">
             <img src={{asset("front/images/logo.png")}} alt="logo" />
@@ -29,6 +29,7 @@
              <li><a href={{path("app_home") }}>Accueil</a></li>
               <li><a href="{{path("app_home") }}#aboutus">A propos</a></li>
                <li><a href="{{path("app_home") }}#getin">Contact</a></li>
+               <li><a href="{{path("app_annonces_front") }}#getin">Annonces</a></li>
                 <li><a href={{ path("faq_") }}>FAQ</a></li>
   <li>
   <a href="http://www.facebook.com" target="_blank">

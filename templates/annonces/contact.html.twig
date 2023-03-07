@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}Annonces{% endblock %}
+
+{% block child %}
+    <section class="page">
+        <h1> Contacter le posteur </h1>
+        <span class="text-muted d-block mb-4"> Ecrivez un mail au posteur pour qu'on puisse vous mettre en contact </span>
+        
+    </section>
+
+{% endblock %}

@@ -26,7 +26,11 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="avatar-img img-fluid rounded-circle" alt="">
                     </a>
                     <h5 class="mb-0 pt-3">
-                        <a href="#!.html" class="text-reset">Noah Pierre</a>
+                    {% if (annonce.joinUser) %}
+                        <a href="#!.html" class="text-reset"> {{ annonce.joinUser.username }} </a>
+                    {% else %}
+                        <span> Undefined </span>
+                    {% endif %}
                     </h5>
                     <span class="text-muted small d-block mb-4">Full stack developer</span>
                 <div class="row mx-0 border-top border-bottom">
@@ -50,6 +54,14 @@
                         <strong> {{ annonce.description }} </strong>
                     </li>
                     <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Rating</span>
+                        <div class="text-end">
+                        <strong> {{ annonce.rating }}     </strong>
+                        <a href="{{ path('app_annonces_upvote', {'id': annonce.id}) }}"  class="btn btn-primary"> upvote </a>
+                        <a href="{{ path('app_annonces_downvote', {'id': annonce.id}) }}" class="btn btn-danger"> downvote </a>
+                        </div>
+                    </li>
+                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
                         <span class="text-muted small d-flex align-items-center">
                             <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
                             Options
@@ -58,6 +70,7 @@
                             <Button  class="btn btn-sm btn-primary">Collecter</Button>
                             <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
                             <a href="{{ path('app_annonces_index') }}" class="btn btn-sm btn-danger">Retour</a>
+                            <a href="{{ path('app_annonces_contact', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">contact</a>
                         </div>
                     </li>
                 </ul>
