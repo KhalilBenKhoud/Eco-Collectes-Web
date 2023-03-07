@@ -23,11 +23,12 @@
                     </li>
                 </ul>
             </div>
+            
         </div>
     </nav>
 </div>
 
-<a href="{{ path('app_article_new') }}">Ajouter un nouveau article</a>
+<a class="btn" href="{{ path('app_article_new') }}">Ajouter un nouvel article</a>
 
 {% for article in articles %}
      {% if article.categorie.id == 4 %}
@@ -74,7 +75,7 @@
           <label for="comment">Add a comment:</label>
 		<textarea class="form-control" id="commentaire_ContenuCommentaire" name="commentaire[ContenuCommentaire]" required="required" maxlength="255"></textarea>
         <input type="hidden" id="commentaire_article" name="commentaire[article]" value="{{article.id}}" /></div>
-		<input type="hidden" id="commentaire__token" name="commentaire[_token]" value="beeef4274dd954268cb0ceff75a576.HcPBuZe-2rzjF_q_CH86Cq9UP_z7dKXgiCcNiphNjOg.LIWC0c3Wgv27J4PUYjFAPsgbRb6UE5CpzW5449o_obwrmvOPwfGe0qtHmQ" /></div> 
+		<input type="hidden" id="commentaire__token" name="commentaire[_token]" value="ff7f2df110bd96198ccf59fc5f14fe1.fpSIFdRO6qKLU6G2E8XV-RifStXQtb6hzLy2Sn2lkVU.D__qcJg-hfj7EeDZYKq7ulXQMuKmmPfFu9DgPwfB1D855v5YpSKYx_MYyg" /></div> 
 		</div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

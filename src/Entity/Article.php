@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -16,8 +17,11 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("articles")]
+
     private ?int $id = null;
     #[ORM\Column(length: 255)]
+
     #[Assert\NotBlank(message: "Le Titre Est Obligatoire")]
     #[Assert\Length(
     min: 2,
@@ -25,6 +29,8 @@ class Article
     minMessage: 'Titre must be at least {{ limit }} characters long',
     maxMessage: 'Titre first name cannot be longer than {{ limit }} characters',
     )]
+    #[Groups("articles")]
+
 
     private ?string $titre = null;
     #[ORM\Column(length: 255)]
@@ -35,17 +41,26 @@ class Article
     minMessage: 'description must be at least {{ limit }} characters long',
     maxMessage: 'description  cannot be longer than {{ limit }} characters',
     )]
+    #[Groups("articles")]
+
     private ?string $contenu = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Commentaire::class)]
+
     private Collection $Relation;
     #[ORM\ManyToOne(inversedBy: 'ref')]
+    #[Groups("articles")]
+
     private ?Categorie $categorie = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups("articles")]
+
     private ?\DateTimeInterface $date_de_creation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups("articles")]
+
     private ?string $photo = null;
 
     public function __construct()

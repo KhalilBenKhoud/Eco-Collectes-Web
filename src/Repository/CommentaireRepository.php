@@ -64,3 +64,22 @@ class CommentaireRepository extends ServiceEntityRepository
 //        ;
 //    }
 }
+class BadWordFilterService
+{
+    private $badWords = [
+        'badword1',
+        'badword2',
+        // add more bad words here
+    ];
+
+    public function filter(string $text): string
+    {
+        $filteredText = $text;
+
+        foreach ($this->badWords as $badWord) {
+            $filteredText = preg_replace('/\b' . $badWord . '\b/i', '***', $filteredText);
+        }
+
+        return $filteredText;
+    }
+}

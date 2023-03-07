@@ -24,7 +24,7 @@ class Commentaire
     private ?Article $article = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_de_commentaire = null;
+    public ?\DateTimeInterface $date_de_commentaire = null;
 
     public function __construct()
     {
