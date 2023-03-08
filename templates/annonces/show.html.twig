@@ -16,7 +16,6 @@
 
     <div class="container">
         <div class="row">
-
             <div class="card overflow-hidden text-center">
                 {% if (annonce.imgUrl) %}
                 <img src="{{ asset('uploads/image/' ~ annonce.imgUrl) }}" class="card-img-top img-fluid" alt="{{ annonce.titre }}">
@@ -33,69 +32,86 @@
                     {% endif %}
                     </h5>
                     <span class="text-muted small d-block mb-4">Full stack developer</span>
-                <div class="row mx-0 border-top border-bottom">
-                    <div class="col-6 text-center border-end py-3">
-                        <h5 class="mb-0"> {{annonce.dateCreation ? annonce.dateCreation|date('Y-m-d') : '' }} </h5>
-                        <small class="text-muted">Date de Création</small>
-                    </div>
-                    <div class="col-6 text-center py-3">
-                        <h5 class="mb-0"> {{annonce.dateModification ? annonce.dateModification|date('Y-m-d') : '' }} </h5>
-                        <small class="text-muted"> Date de Modification </small>
-                    </div>
-                </div>
+                    <div style="textAlign:center" class="row mx-0 border-top border-bottom">
+                    {% if (annonce.joinUser) %}
+                        <div class="col-6 text-center border-end py-3">
+                            <h5 class="mb-0"> 
+                                <strong> {{ annonce.rating }} </strong>
+                            </h5>
+                            <small class="text-muted"> Evaluation de L'utilisateur </small>
+                        </div>
+                    {% endif %}
+                    {% if (annonce.joinUser) == null %}
+                        <div class="text-center py-3">
+                    {% else %}
+                        <div class="col-6 text-center py-3">
+                    {% endif %}
 
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Titre</span>
-                        <strong> {{ annonce.titre }} </strong>
-                    </li>
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Description</span>
-                        <strong> {{ annonce.description }} </strong>
-                    </li>
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Rating</span>
-                        <div class="text-end">
-                        <strong> {{ annonce.rating }}     </strong>
-                        <a href="{{ path('app_annonces_upvote', {'id': annonce.id}) }}"  class="btn btn-primary"> upvote </a>
-                        <a href="{{ path('app_annonces_downvote', {'id': annonce.id}) }}" class="btn btn-danger"> downvote </a>
+                            <h5 class="mb-0"> {{annonce.dateModification ? annonce.dateModification|date('Y-m-d') : '' }} </h5>
+                            <small class="text-muted"> Date de Modification </small>
                         </div>
-                    </li>
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small d-flex align-items-center">
-                            <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
-                            Options
-                        </span>
-                        <div class="text-end">
-                            <Button  class="btn btn-sm btn-primary">Collecter</Button>
-                            <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
-                            <a href="{{ path('app_annonces_index') }}" class="btn btn-sm btn-danger">Retour</a>
-                            <a href="{{ path('app_annonces_contact', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">contact</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            
-        <ul class="list-group list-group-flush">
-            <div class="new-comment">
-                <a id="formulaire" href="{{ path('app_commentaire_new', {'annonceId': annonce.id})}}" class="btn btn-sm btn-primary">Commenter</a>
-            </div>
-            {% for c in annonce.joinCommentaire %}
-                <div id="comment" class="card overflow-hidden text-center">    
-                
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-center">
-                        Commentaire:
-                    </li>                
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <strong class="text-muted small"> Titre: </strong> {{c.titre}}
-                    </li>
-                    <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <strong class="text-muted small"> Contenu: </strong> {{c.contenu}}
-                    </li>
+                    
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small">Titre</span>
+                            <strong> {{ annonce.titre }} </strong>
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small">Description</span>
+                            <strong> {{ annonce.description }} </strong>
+                        </li>
+                        {% if (annonce.joinUser) %}
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small"> Evaluez cet utilisateur </span>
+                            <div class="text-end">
+                            
+                            <form action="{{ path('app_annonces_upvote', {'id': annonce.getId()}) }}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-success">Upvote</button>
+                                <input type="hidden" name="_token" value="{{ csrf_token('app_annonces_upvote') }}">
+                            </form>
+                            <form action="{{ path('app_annonces_downvote', {'id': annonce.getId()}) }}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Downvote</button>
+                                <input type="hidden" name="_token" value="{{ csrf_token('app_annonces_downvote') }}">
+                            </form>
+                            </div>
+                        </li>
+                        {% endif %}
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small d-flex align-items-center">
+                                <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
+                                Options
+                            </span>
+                            <div class="text-end">
+                                <Button  class="btn btn-sm btn-primary">Collecter</Button>
+                                <a href="{{ path('app_annonces_email', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">Contact</a>
+                                <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            {% endfor %}
-        </ul>
-</section>
+            <ul class="list-group list-group-flush">
+            
+                <div class="new-comment">
+                    <a style="margin-right:5px" id="formulaire" href="{{ path('app_commentaire_new', {'annonceId': annonce.id})}}" class="btn btn-sm btn-primary">Commenter</a>
+                    <a style="margin-right:15px" id="formulaire" href="{{ path('app_annonces_front') }}" class="btn btn-sm btn-danger">Retour</a>
+                </div>
+                {% for c in annonce.joinCommentaire %}
+                    <div id="comment" class="card overflow-hidden text-center">    
+                    
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-center">
+                            Commentaire:
+                        </li>                
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <strong class="text-muted small"> Titre: </strong> {{c.titre}}
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <strong class="text-muted small"> Contenu: </strong> {{c.contenu}}
+                        </li>
+                    </div>
+                {% endfor %}
+            </ul>
+    </section>
 
     <style>
         .new-comment{
@@ -165,9 +181,10 @@
             width:60%;
         }
         #formulaire{
-            width: 34.25%;
-            margin-top:20px;
-            margin-bottom:5px
+            width: 16.25%;
+            margin-top:5px;
+            margin-bottom:5px;
+            
         }
     </style>
 {% endblock %}

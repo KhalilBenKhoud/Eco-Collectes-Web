@@ -1,0 +1,18 @@
+{% block body %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}Annonces{% endblock %}
+
+{% block child %}
+
+
+<p>You have received a new email from {{ message.fromEmail }}:</p>
+
+<p>{{ message.message }}</p>
+
+<p>Regarding the {{ annonce.title }} announcement:</p>
+
+<p>{{ annonce.description }}</p>
+
+{% endblock %}

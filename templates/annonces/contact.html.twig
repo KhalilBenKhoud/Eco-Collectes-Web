@@ -12,9 +12,152 @@
 
 {% block child %}
     <section class="page">
-        <h1> Contacter le posteur </h1>
+
+        <h1> Contactez le posteur </h1>
         <span class="text-muted d-block mb-4"> Ecrivez un mail au posteur pour qu'on puisse vous mettre en contact </span>
+
+        {{ form_start(form) }}
+            <div class="card text-center">
+                <div class="card-header">
+                    <span> Ecrivez un mail à Mr/Mme. {{annonce.joinUser.username}}! </span>
+                </div>
+                <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Titre</span>
+                        <strong>
+                            {{ form_widget(form.email, {'attr': {'class':'form-control'}})}}
+                            <div class="err">
+                                {% if form_errors(form.email) %}
+                                    <div class="alert alert-danger">{{ form_errors(form.email) }}</div>
+                                {% endif %}
+                            </div>
+                        </strong>
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                        <span class="text-muted small">Description</span>
+                        <strong>
+                                {{ form_widget(form.message, {'attr': {'class':'form-control'}}) }}
+                            <div>
+                                {% if form_errors(form.message) %}
+                                    <div class="alert alert-danger">{{ form_errors(form.message) }}</div>
+                                {% endif %}
+                            <div>
+                        </strong>
+                        
+                        </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small d-flex align-items-center">
+                                <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
+                                Image
+                            </span>
+                            <div id='img'>
+                            {{ form_widget(form.annonce, {'attr': {'class':'form-control'}})}}
+                                <div class="err">
+                                    {% if form_errors(form.annonce) %}
+                                        <div class="alert alert-danger">{{ form_errors(form.annonce) }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                        <div class="test text-end">
+                            <button id="bton" type='submit' class=" btn btn-sm btn-success"> Sauvegarder </button>
+                        </div>
+                        {{form_end(form)}}
+                        <div class='testBtn'>
+                            <a id="bton" class=" btn btn-sm btn-danger " href="{{ path('app_annonces_show', {'id': annonce.id}) }}"> Annuler </a>
+                        </div>
+                    </ul>
+
+
+
+                </div>
+            </div>
+        {{ form_end(form) }}
         
     </section>
 
+<style>
+        .testBtn{
+            display:flex;
+            justify-content:center;
+            margin-top:-12.5px;    
+        }
+        .err{
+            margin-top:5px;
+        }
+        .test{
+            display: flex;
+            justify-content: center;
+        }
+
+        #bton{
+            width:40%;
+            margin: 10px
+
+        }
+        #photo{
+            width:80%
+        }
+
+        .avatar.xl {
+            width: 5rem;
+            height: 5rem;
+            font-size: 1.09375rem;
+        }
+
+        .avatar img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .rounded-circle {
+            border-radius: 50%!important;
+        }
+
+        .bg-opacity-10 {
+            --bs-bg-opacity: 0.1;
+        }
+        .bg-gray {
+            --bs-bg-opacity: 1;
+            background-color: rgba(var(--bs-gray-rgb),var(--bs-bg-opacity))!important;
+        }
+        .p-1 {
+            padding: 0.25rem!important;
+        }
+        .mt-n5 {
+            margin-top: -1.5rem!important;
+        }
+        .mx-auto {
+            margin-right: auto!important;
+            margin-left: auto!important;
+        }
+        .position-relative {
+            position: relative!important;
+        }
+        .d-block {
+            display: block!important;
+        }
+        a {
+            color: var(--bs-link-color);
+            text-decoration: none;
+        }
+        .container {
+            width: 50%;
+            display:flex;
+            justify-content: center;
+        }
+        .row{
+            width:100% !important;
+            margin: auto;
+        }
+        #img {
+            width:60%;
+        }
+    </style>
 {% endblock %}

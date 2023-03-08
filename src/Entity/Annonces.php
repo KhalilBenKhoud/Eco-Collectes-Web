@@ -41,8 +41,9 @@ class Annonces
     #[ORM\ManyToOne(inversedBy: 'joinAnnonces')]
     private ?User $joinUser = null;
 
-    #[ORM\Column]
-    private ?int $rating;
+    #[ORM\Column(type: "integer", options: ["default" => 0])]
+    private int $rating = 0;
+
 
     public function __construct()
     {

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonces;
 use App\Form\AnnoncesType;
+use App\Form\ContactType;
 use App\Repository\AnnoncesRepository;
 use SebastianBergmann\Environment\Console;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,31 +33,37 @@ class AnnoncesController extends AbstractController
         ]);
     }
 
-    #[Route('/annonces/{id}/upvote', name: 'app_annonces_upvote', methods: ['GET'])]
-    public function upvote(Int $id, AnnoncesRepository $annoncesRepository): Response
+    #[Route('/{id}/upvote', name: 'app_annonces_upvote', methods: ['POST'])]
+    public function upvote(Annonces $annonce, Request $request): Response
     {
-        $annonce = $annoncesRepository -> find($id);    
         $annonce->setRating($annonce->getRating() + 1);
-        $annoncesRepository->save($annonce);
-
-        return $this->redirectToRoute('app_annonces_show', ['id' => $annonce->getId()]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($annonce);
+        $entityManager->flush();
+    
+        return $this->render('annonces/show.html.twig', [
+            'annonce' => $annonce,
+        ]);
     }
     
-    #[Route('/annonces/{id}/downvote', name: 'app_annonces_downvote', methods: ['GET'])]
-    public function downvote(Int $id, AnnoncesRepository $annoncesRepository): Response
+    #[Route('/{id}/downvote', name: 'app_annonces_downvote', methods: ['POST'])]
+    public function downvote(Annonces $annonce, Request $request): Response
     {
-        $annonce = $annoncesRepository -> find($id);
         $annonce->setRating($annonce->getRating() - 1);
-        $annoncesRepository->save($annonce);
-        
-        return $this->redirectToRoute('app_annonces_show', ['id' => $annonce->getId()]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($annonce);
+        $entityManager->flush();
+    
+        return $this->render('annonces/show.html.twig', [
+            'annonce' => $annonce,
+        ]);
     }
 
     #[Route('/new', name: 'app_annonces_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnoncesRepository $annoncesRepository): Response
     {
-        $user = $this -> getUser();
         $annonce = new Annonces();
+        $user = $this -> getUser();
         $annonce->setJoinUser($user);
         $form = $this->createForm(AnnoncesType::class, $annonce);
         $form->handleRequest($request);
@@ -85,21 +92,57 @@ class AnnoncesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_annonces_show', methods: ['GET'])]
+    #[Route('/email/{id}', name: 'app_annonces_email', methods: ['GET'])]
+    public function email(int $id, AnnoncesRepository $annoncesRepository, Request $request, MailerInterface $mailer)
+    {
+        $annonce = $annoncesRepository -> find($id);
+        $form = $this->createForm(ContactType::class);
+        dump($form);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formData = $form->getData();
+
+            // Get the user who made the announcement
+            $user = $formData['annonce']->getUser();
+
+            // Create the email
+            $email = (new Email())
+                ->from($formData['email'])
+                ->to($annonce->getJoinUser()->getEmail())
+                ->subject('Contact from your announcement')
+                ->text(sprintf("envoyé par %s\n\n%s". $formData['email']. $formData['message']));
+
+            // Send the email
+            $mailer->send($email);
+
+            return $this->redirectToRoute('annonces/contact_success');
+        }
+
+        return $this->render('annonces/contact.html.twig', [
+            'form' => $form->createView(),
+            'annonce' => $annonce
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_annonces_show', methods: ['GET','POST'])]
     public function show(Annonces $annonce): Response
     {
         return $this->render('annonces/show.html.twig', [
             'annonce' => $annonce,
         ]);
     }
-    
+
     #[Route('/contact/{id}', name: 'app_annonces_contact', methods: ['GET'])]
     public function contact(Annonces $annonce): Response
     {
+        
         return $this->render('annonces/contact.html.twig', [
             'annonce' => $annonce,
         ]);
     }
+
+    
     
     #[Route('/{id}/edit', name: 'app_annonces_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonces $annonce, AnnoncesRepository $annoncesRepository): Response
@@ -130,35 +173,6 @@ class AnnoncesController extends AbstractController
 
         return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}/email', name: 'app_annonces_email', methods: ['GET', 'POST'])]
-    public function email(Request $request, MailerInterface $mailer, Annonces $annonce): Response
-    {
-        $form = $this->createForm(EmailType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            $email = (new Email())
-                ->from($this->getUser()->getUserIdentifier())
-                ->to($annonce->getUser()->getEmail())
-                ->subject($data['subject'])
-                ->text($data['body']);
-
-            $mailer->send($email);
-
-            $this->addFlash('success', 'Your message has been sent successfully.');
-
-            return $this->redirectToRoute('app_annonces_show', ['id' => $annonce->getId()]);
-        }
-
-        return $this->renderForm('annonces/email.html.twig', [
-            'annonce' => $annonce,
-            'form' => $form,
-        ]);
-    }
-
 
 
     
