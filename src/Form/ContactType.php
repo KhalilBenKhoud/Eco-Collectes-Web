@@ -17,10 +17,7 @@ class ContactType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('message', TextareaType::class)
-            ->add('annonce', EntityType::class, [
-                'class' => Annonces::class,
-                'choice_label' => 'titre',
-            ]);
+            
         ;
     }
 

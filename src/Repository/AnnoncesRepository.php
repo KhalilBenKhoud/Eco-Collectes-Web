@@ -21,6 +21,15 @@ class AnnoncesRepository extends ServiceEntityRepository
         parent::__construct($registry, Annonces::class);
     }
 
+    public function search(string $query)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.titre LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Annonces $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

@@ -84,7 +84,9 @@
                             </span>
                             <div class="text-end">
                                 <Button  class="btn btn-sm btn-primary">Collecter</Button>
+                                {% if (annonce.joinUser) %}
                                 <a href="{{ path('app_annonces_email', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">Contact</a>
+                                {% endif %}
                                 <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
                             </div>
                         </li>

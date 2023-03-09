@@ -25,57 +25,38 @@
 
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Titre</span>
-                        <strong>
-                            {{ form_widget(form.email, {'attr': {'class':'form-control'}})}}
-                            <div class="err">
-                                {% if form_errors(form.email) %}
-                                    <div class="alert alert-danger">{{ form_errors(form.email) }}</div>
-                                {% endif %}
-                            </div>
-                        </strong>
-                        </li>
-                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                        <span class="text-muted small">Description</span>
-                        <strong>
-                                {{ form_widget(form.message, {'attr': {'class':'form-control'}}) }}
-                            <div>
-                                {% if form_errors(form.message) %}
-                                    <div class="alert alert-danger">{{ form_errors(form.message) }}</div>
-                                {% endif %}
-                            <div>
-                        </strong>
-                        
-                        </li>
-                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                            <span class="text-muted small d-flex align-items-center">
-                                <span class="align-middle lh-1 me-1 size-5 border border-4 border-success rounded-circle d-inline-block"></span>
-                                Image
-                            </span>
-                            <div id='img'>
-                            {{ form_widget(form.annonce, {'attr': {'class':'form-control'}})}}
+                            <span class="text-muted small">Votre mail:</span>
+                            <strong>
+                                {{ form_widget(form.email, {'attr': {'class':'form-control'}})}}
                                 <div class="err">
-                                    {% if form_errors(form.annonce) %}
-                                        <div class="alert alert-danger">{{ form_errors(form.annonce) }}</div>
+                                    {% if form_errors(form.email) %}
+                                        <div class="alert alert-danger">{{ form_errors(form.email) }}</div>
                                     {% endif %}
                                 </div>
-                            </div>
+                            </strong>
                         </li>
+                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                            <span class="text-muted small">Contenu:</span>
+                            <strong>
+                                    {{ form_widget(form.message, {'attr': {'class':'form-control'}}) }}
+                                <div>
+                                    {% if form_errors(form.message) %}
+                                        <div class="alert alert-danger">{{ form_errors(form.message) }}</div>
+                                    {% endif %}
+                                <div>
+                            </strong>
+                        </li>
+                        
                         <div class="test text-end">
-                            <button id="bton" type='submit' class=" btn btn-sm btn-success"> Sauvegarder </button>
+                            <button id="bton" type='submit' class=" btn btn-sm btn-success"> Envoyer </button>
                         </div>
                         {{form_end(form)}}
                         <div class='testBtn'>
                             <a id="bton" class=" btn btn-sm btn-danger " href="{{ path('app_annonces_show', {'id': annonce.id}) }}"> Annuler </a>
                         </div>
                     </ul>
-
-
-
                 </div>
-            </div>
-        {{ form_end(form) }}
-        
+            </div>        
     </section>
 
 <style>

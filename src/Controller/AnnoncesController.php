@@ -82,7 +82,7 @@ class AnnoncesController extends AbstractController
 
             $annoncesRepository->save($annonce, true);
 
-            return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_annonces_front', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('annonces/new.html.twig', [
@@ -92,31 +92,51 @@ class AnnoncesController extends AbstractController
         ]);
     }
 
-    #[Route('/email/{id}', name: 'app_annonces_email', methods: ['GET'])]
+    #[Route('/search', name: 'app_annonces_search', methods: ['GET', 'POST'])]
+    public function search(Request $request, AnnoncesRepository $annoncesRepository)
+{
+    $query = $request->query->get('q');
+
+    $annonces = $annoncesRepository->search($query);
+
+    return $this->render('annonces/AnnoncesF.html.twig', [
+        'annonces' => $annonces,
+    ]);
+}
+
+
+    #[Route('/email/{id}', name: 'app_annonces_email', methods: ['GET','POST'])]
     public function email(int $id, AnnoncesRepository $annoncesRepository, Request $request, MailerInterface $mailer)
     {
         $annonce = $annoncesRepository -> find($id);
-        $form = $this->createForm(ContactType::class);
+        $form = $this->createForm(ContactType::class, null, [
+            'data' => ['annonce => $annonce'],
+        ]);
+        $message = sprintf("<p>envoyé par %s</p><p>%s</p>", $formData['email'], $formData['message']);
         dump($form);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
 
-            // Get the user who made the announcement
-            $user = $formData['annonce']->getUser();
-
+            
             // Create the email
             $email = (new Email())
-                ->from($formData['email'])
+                ->from("ecocollectes@gmail.com")
                 ->to($annonce->getJoinUser()->getEmail())
                 ->subject('Contact from your announcement')
-                ->text(sprintf("envoyé par %s\n\n%s". $formData['email']. $formData['message']));
-
+                ->html($message);
             // Send the email
-            $mailer->send($email);
+            try {
+                $mailer->send($email);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'An error occurred while sending the email: ' . $e->getMessage());
+                return $this->redirectToRoute('app_annonces_show', ['id' => $annonce->getId()]);
+            }
 
-            return $this->redirectToRoute('annonces/contact_success');
+            return $this->render('annonces/contact_success.html.twig', [
+                'annonce' => $annonce
+            ]);
         }
 
         return $this->render('annonces/contact.html.twig', [
