@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'joinUser', targetEntity: Annonces::class)]
     private Collection $joinAnnonces;
 
+    #[ORM\OneToMany(mappedBy: 'joinUser', targetEntity: Commentaire::class)]
+    private Collection $joinCommentaire;
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -46,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->joinAnnonces = new ArrayCollection();
+        $this->joinCommentaire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,12 +148,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->joinAnnonces;
     }
+    public function getJoinCommentaire(): Collection
+    {
+        return $this->joinCommentaire;
+    }
 
     public function addJoinAnnonces(Annonces $joinAnnonces): self
     {
         if (!$this->joinAnnonces->contains($joinAnnonces)) {
             $this->joinAnnonces->add($joinAnnonces);
             $joinAnnonces->setAnnonces($this);
+        }
+
+        return $this;
+    }
+    public function addJoinCommentaire(Commentaire $joinCommentaire): self
+    {
+        if (!$this->joinCommentaire->contains($joinCommentaire)) {
+            $this->joinCommentaire->add($joinCommentaire);
+            $joinCommentaire->setAnnonces($this);
         }
 
         return $this;
@@ -161,6 +178,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($joinAnnonces->getAnnonces() === $this) {
                 $joinAnnonces->setAnnonces(null);
+            }
+        }
+
+        return $this;
+    }
+    public function removeJoinCommentaire(Commentaire $joinCommentaire): self
+    {
+        if ($this->joinCommentaire->removeElement($joinCommentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($joinCommentaire->getCommentaire() === $this) {
+                $joinCommentaire->setCommentaire(null);
             }
         }
 

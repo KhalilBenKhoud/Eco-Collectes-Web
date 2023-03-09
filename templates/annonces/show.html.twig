@@ -95,21 +95,28 @@
             <ul class="list-group list-group-flush">
             
                 <div class="new-comment">
-                    <a style="margin-right:5px" id="formulaire" href="{{ path('app_commentaire_new', {'annonceId': annonce.id})}}" class="btn btn-sm btn-primary">Commenter</a>
+                    <a style="margin-right:5px;" id="formulaire" href="{{ path('app_commentaire_new', {'annonceId': annonce.id})}}" class="btn btn-sm btn-primary">Commenter</a>
                     <a style="margin-right:15px" id="formulaire" href="{{ path('app_annonces_front') }}" class="btn btn-sm btn-danger">Retour</a>
                 </div>
                 {% for c in annonce.joinCommentaire %}
                     <div id="comment" class="card overflow-hidden text-center">    
-                    
-                        <li class="list-group-item px-3 d-flex align-items-center justify-content-center">
-                            Commentaire:
-                        </li>                
-                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                            <strong class="text-muted small"> Titre: </strong> {{c.titre}}
-                        </li>
-                        <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
-                            <strong class="text-muted small"> Contenu: </strong> {{c.contenu}}
-                        </li>
+                        <div class="text-muted sm">
+                        </div>
+                             
+                        <div class="col">
+                            <li class="list-group-item px-3 d-flex align-items-center justify-content-center">
+                                Commentaire:
+                            </li>                
+                            <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                                <strong class="text-muted small"> Utilisateur: </strong> {{c.joinUser.username}}
+                            </li>
+                            <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                                <strong class="text-muted small"> Titre: </strong> {{c.titre}}
+                            </li>
+                            <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
+                                <strong class="text-muted small"> Contenu: </strong> {{c.contenu}}
+                            </li>
+                        </div>
                     </div>
                 {% endfor %}
             </ul>

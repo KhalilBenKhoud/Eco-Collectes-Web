@@ -30,6 +30,25 @@ class Commentaire
     #[ORM\ManyToOne(inversedBy: 'joinCommentaire')]
     private ?Annonces $annonces = null;
 
+    #[ORM\ManyToOne(inversedBy: 'joinCommentaire')]
+    private ?User $joinUser = null;
+
+    /**
+     * Summary of getJoinUser
+     * @return User|null
+     */
+    public function getJoinUser(): ?User
+    {
+        return $this->joinUser;
+    }
+
+    public function setJoinUser(?User $user): self
+    {
+        $this->joinUser = $user;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

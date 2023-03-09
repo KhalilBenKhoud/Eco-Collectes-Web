@@ -32,7 +32,8 @@ class CommentaireController extends AbstractController
     {
         $commentaire = new Commentaire();
         $entityManager = $registry->getManager();
-
+        $user = $this -> getUser();
+        $commentaire->setJoinUser($user);
 
         // set the related annonce based on the ID provided in the URL
         $annonce = $entityManager->getRepository(Annonces::class)->find($annonceId);
@@ -45,7 +46,7 @@ class CommentaireController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaireRepository->save($commentaire, true);
 
-            return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_annonces_show', [ 'id' => $annonceId ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('commentaire/new.html.twig', [
