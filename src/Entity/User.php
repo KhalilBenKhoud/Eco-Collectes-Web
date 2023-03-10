@@ -29,7 +29,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message:"email is requierd")]
     #[Assert\Email(message:"the email is not valid mail")]
-    private ?string $email = null;
+    public ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'joinUser', targetEntity: Annonces::class)]
     private Collection $joinAnnonces;

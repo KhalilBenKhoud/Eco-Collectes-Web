@@ -39,7 +39,7 @@ class Annonces
     private Collection $joinCommentaire;
 
     #[ORM\ManyToOne(inversedBy: 'joinAnnonces')]
-    private ?User $joinUser = null;
+    public ?User $joinUser = null;
 
     #[ORM\Column(type: "integer", options: ["default" => 0])]
     private int $rating = 0;

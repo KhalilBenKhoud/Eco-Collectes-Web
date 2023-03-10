@@ -16,15 +16,18 @@
         <h1  class="d-block mb-4"> Annonces </h1>
         <span class="text-muted small d-block mb-4"> Bienvenue aux annonces, voici les annonces disponibles. </span>
         <div class="card">
-            <div class="row card-header">
-                <a class="btn btn-primary" href='{{ path('app_annonces_new') }}'>nouvelle annonce </a>
+            <div  class="col card-header">
+                <a style="display:block" class="btn btn-primary" href='{{ path('app_annonces_new') }}'>nouvelle annonce </a>
+            </div>
+            <div class="col card-header">
                 <form action="{{ path('app_annonces_search') }}" method="get">
                     <div class="form-group">
-                        <input style="margin-top:10px; width:25%" type="text" name="q" class="form-control " placeholder="Search...">
+                        <input style="display:block;" type="text" name="q" class="form-control " placeholder="Search...">
                         <button style="margin-top:5px" type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
             </div>
+            
             <div style="margin:15px" class="grid-container">
                 {% for a in annonces %}
                     <div class="card overflow-hidden text-center parent">

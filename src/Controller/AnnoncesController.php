@@ -10,6 +10,7 @@ use SebastianBergmann\Environment\Console;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
@@ -112,12 +113,13 @@ class AnnoncesController extends AbstractController
         $form = $this->createForm(ContactType::class, null, [
             'data' => ['annonce => $annonce'],
         ]);
+        dump($form);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $message = sprintf("<p>envoyé par %s</p><p>%s</p>", $formData['email'], $formData['message']);
             $formData = $form->getData();
-
+            $message = sprintf("<p>Nouveau mail envoyé par %s</p><p>%s</p>", $formData['email'], $formData['message'], "<p> pour repondre, utilisez cette adresse.</p>");
+            
             
             // Create the email
             $email = (new Email())
@@ -164,23 +166,29 @@ class AnnoncesController extends AbstractController
     
     
     #[Route('/{id}/edit', name: 'app_annonces_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Annonces $annonce, AnnoncesRepository $annoncesRepository): Response
+    public function edit(SessionInterface $session, Request $request, Annonces $annonce, AnnoncesRepository $annoncesRepository): Response
     {
-        $form = $this->createForm(AnnoncesType::class, $annonce);
-        $form->handleRequest($request);
-    
+        if ($this->getUser()->email != $annonce -> joinUser -> email) {
+            return $this->render('annonces/ineligible.html.twig', [
+                'annonce' => $annonce,
+            ]);
+        } else {
+            $form = $this->createForm(AnnoncesType::class, $annonce);
+            $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) {
-            $annonce->setDateModification(new \DateTimeImmutable());
-            $annoncesRepository->save($annonce, true);
-    
-            return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                $annonce->setDateModification(new \DateTimeImmutable());
+                $annoncesRepository->save($annonce, true);
+        
+                return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
+            }
+        
+            return $this->renderForm('annonces/edit.html.twig', [
+                'annonce' => $annonce,
+                'form' => $form,
+            ]);
         }
-    
-        return $this->renderForm('annonces/edit.html.twig', [
-            'annonce' => $annonce,
-            'form' => $form,
-        ]);
     }
     
     #[Route('/{id}', name: 'app_annonces_delete', methods: ['POST'])]

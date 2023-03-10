@@ -16,7 +16,10 @@
 
     <div class="container">
         <div class="row">
-            <div class="card overflow-hidden text-center">
+            <div class="card  text-center">
+                <div style=" margin-top: 5px; margin-bottom: 5px">
+                    <a style="display:block" href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
+                </div>
                 {% if (annonce.imgUrl) %}
                 <img src="{{ asset('uploads/image/' ~ annonce.imgUrl) }}" class="card-img-top img-fluid" alt="{{ annonce.titre }}">
                 {% endif %}
@@ -87,7 +90,6 @@
                                 {% if (annonce.joinUser) %}
                                 <a href="{{ path('app_annonces_email', {'id': annonce.id}) }}" class="btn btn-sm btn-primary">Contact</a>
                                 {% endif %}
-                                <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
                             </div>
                         </li>
                     </ul>
@@ -109,6 +111,7 @@
                             </li>                
                             <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
                                 <strong class="text-muted small"> Utilisateur: </strong> {{c.joinUser.username}}
+                                <strong class="text-muted small"> Role: </strong> Donneur
                             </li>
                             <li class="list-group-item px-3 d-flex align-items-center justify-content-between">
                                 <strong class="text-muted small"> Titre: </strong> {{c.titre}}
