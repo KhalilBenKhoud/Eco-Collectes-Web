@@ -112,11 +112,10 @@ class AnnoncesController extends AbstractController
         $form = $this->createForm(ContactType::class, null, [
             'data' => ['annonce => $annonce'],
         ]);
-        $message = sprintf("<p>envoyé par %s</p><p>%s</p>", $formData['email'], $formData['message']);
-        dump($form);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $message = sprintf("<p>envoyé par %s</p><p>%s</p>", $formData['email'], $formData['message']);
             $formData = $form->getData();
 
             
