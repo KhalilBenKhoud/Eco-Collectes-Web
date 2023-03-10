@@ -1,7 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block child %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    if (value.trim() === "") {
+      $(".myListItem").show();
+    } else {
+      $(".myListItem").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    }
+  });
+});
+</script>
 <div>
+  <div class="sidebar-search">
+    <div class="input-group custom-search-form">
+      <input type="text" id="myInput" class="form-control" placeholder="Search here">
+    </div>
+    <br><br>
+    <ul>
+      {% for article in articles %}
+        <li class="myListItem">{{ article.titre }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +56,7 @@
     </nav>
 </div>
 <a class="btn" href="{{ path('app_article_new') }}">Ajouter un nouvel article</a>
+
 
 {% for article in articles %}
 <div class="container mt-5">
@@ -70,7 +100,7 @@
           <label for="comment">Add a comment:</label>
 		<textarea class="form-control" id="commentaire_ContenuCommentaire" name="commentaire[ContenuCommentaire]" required="required" maxlength="255"></textarea>
         <input type="hidden" id="commentaire_article" name="commentaire[article]" value="{{article.id}}" /></div>
-		<input type="hidden" id="commentaire__token" name="commentaire[_token]" value="ff7f2df110bd96198ccf59fc5f14fe1.fpSIFdRO6qKLU6G2E8XV-RifStXQtb6hzLy2Sn2lkVU.D__qcJg-hfj7EeDZYKq7ulXQMuKmmPfFu9DgPwfB1D855v5YpSKYx_MYyg" /></div> 
+		<input type="hidden" id="commentaire__token" name="commentaire[_token]" value="cf012.ZJCJQAck5SnCXQtMh8MXAHOi-zWLly5mHu5YF2XnW_s.IuX9BENnlBuIGHEI_otweSTMn2PM9B4ueqsTbQvKCLks3KR3fXyrH44RZA" /></div> 
 		</div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

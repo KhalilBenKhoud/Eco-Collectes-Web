@@ -6,6 +6,8 @@ use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -75,4 +77,59 @@ class CategorieController extends AbstractController
 
         return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route("/Allcategorie", name: "list2")]
+    public function getCategory(CategorieRepository $repo, SerializerInterface $serializer)
+    {
+        $categorie = $repo->findAll();
+        $json = $serializer->serialize($categorie, 'json', ['groups' => "categories"]);
+        return new Response($json);
+    }
+
+    #[Route("/Categorie/{id}", name: "Categorie")]
+    public function CategorieId($id, NormalizerInterface $normalizer, CategorieRepository $repo)
+    {
+        $categorie = $repo->find($id);
+        $categorieNormalises = $normalizer->normalize($categorie, 'json', ['groups' => "categories"]);
+        return new Response(json_encode($categorieNormalises));
+    }
+
+
+    #[Route("/newCategorieJSON", name: "addCategorieJSON")]
+    public function addCategorieJSON(Request $req, NormalizerInterface $Normalizer, CategorieRepository $categorieRepository)
+    {
+
+        $categorie = new Categorie();
+        $categorie->setRefCategorie($req->get('ref-categorie'));
+        $categorieRepository->save($categorie, true);
+
+
+        $jsonContent = $Normalizer->normalize($categorie, 'json', ['groups' => 'categories']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    #[Route("/updateCategorieJSON/{id}", name: "updateCategorieJSON")]
+    public function updateCategorieJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository(Categorie::class)->find($id);
+        $categorie->setRefCategorie($req->get('ref-categorie'));
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($categorie, 'json', ['groups' => 'categorie']);
+        return new Response("Categorie updated successfully " . json_encode($jsonContent));
+    }
+
+    #[Route("/deleteCategorieJSON/{id}", name: "deleteCategorieJSON")]
+    public function deleteCategorieJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository(Categorie::class)->find($id);
+        $em->remove($categorie);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($categorie, 'json', ['groups' => 'categories']);
+        return new Response("Categorie deleted successfully " . json_encode($jsonContent));
+    }
+
 }

@@ -23,7 +23,9 @@ class CommentaireController extends AbstractController
     }
 
     #[Route('/new', name: 'app_commentaire_new', methods: ['GET', 'POST'])]
-    public function new (Request $request, CommentaireRepository $commentaireRepository, BadWordFilterService $badWordFilter): Response
+    public function new (
+        Request $request, CommentaireRepository $commentaireRepository
+    ): Response
     {
         $commentaire = new Commentaire();
         $form = $this->createForm(CommentaireType::class, $commentaire);
@@ -31,10 +33,10 @@ class CommentaireController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $text = $request->request->get('text');
-            $filteredText = $badWordFilter->filter($text);
 
             $commentaireRepository->save($commentaire, true);
-            dd($badWordFilter);
+
+
 
             return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
         }

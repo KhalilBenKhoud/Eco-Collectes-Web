@@ -3,14 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\UserRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -23,17 +29,11 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route("/Allarticles", name: "list")]
-    public function getArticles(ArticleRepository $repo, SerializerInterface $serializer)
-    {
-        $articles = $repo->findAll();
-        $json = $serializer->serialize($articles, 'json', ['groups' => "articles"]);
-        return new Response($json);
-    }
+
 
 
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
-    public function new (Request $request, ArticleRepository $articleRepository): Response
+    public function new (Request $request, ArticleRepository $articleRepository, MailerInterface $mailer): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -54,8 +54,24 @@ class ArticleController extends AbstractController
                 $article->setPhoto($newFilename);
 
 
+                $email = (new TemplatedEmail())
+                    ->from('Abdell@hotmail.com')
+                    ->to('ArticleAdmin@hotmail.com')
+                    //->cc('cc@example.com')
+                    //->bcc('bcc@example.com')
+                    //->replyTo('fabien@example.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject('Hey A Nw Article was ADDED!')
+                    ->text('hey new article was added to Eco-Collect Forum check it sooner  :D !');
+
+                $mailer->send($email);
+
+
+
             }
             $articleRepository->save($article, true);
+
+
             return $this->redirectToRoute('forum_', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -120,6 +136,14 @@ class ArticleController extends AbstractController
         return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route("/Allarticles", name: "list")]
+    public function getArticles(ArticleRepository $repo, SerializerInterface $serializer)
+    {
+        $articles = $repo->findAll();
+        $json = $serializer->serialize($articles, 'json', ['groups' => "articles"]);
+        return new Response($json);
+    }
+
     #[Route("/Article/{id}", name: "article")]
     public function ArticleId($id, NormalizerInterface $normalizer, ArticleRepository $repo)
     {
@@ -129,14 +153,13 @@ class ArticleController extends AbstractController
     }
 
 
-    #[Route("newArticleJSON/new", name: "addArticleJSON")]
+    #[Route("/newArticleJSON", name: "addArticleJSON")]
     public function addArticleJSON(Request $req, NormalizerInterface $Normalizer, articleRepository $articleRepository)
     {
 
         $article = new Article();
         $article->setTitre($req->get('titre'));
         $article->setContenu($req->get('contenu'));
-        $article->setDateDeCreation($req->get('date_de_creation'));
         $article->setPhoto($req->get('photo'));
         $articleRepository->save($article, true);
 
@@ -145,7 +168,7 @@ class ArticleController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
-    #[Route("updateArticleJSON/{id}", name: "updateArticleJSON")]
+    #[Route("/updateArticleJSON/{id}", name: "updateArticleJSON")]
     public function updateArticleJSON(Request $req, $id, NormalizerInterface $Normalizer)
     {
 
@@ -162,7 +185,7 @@ class ArticleController extends AbstractController
         return new Response("Article updated successfully " . json_encode($jsonContent));
     }
 
-    #[Route("deleteArticleJSON/{id}", name: "deleteArticleJSON")]
+    #[Route("/deleteArticleJSON/{id}", name: "deleteArticleJSON")]
     public function deleteArticleJSON(Request $req, $id, NormalizerInterface $Normalizer)
     {
 
@@ -173,8 +196,6 @@ class ArticleController extends AbstractController
         $jsonContent = $Normalizer->normalize($article, 'json', ['groups' => 'articles']);
         return new Response("Article deleted successfully " . json_encode($jsonContent));
     }
-
-
 
 
 
