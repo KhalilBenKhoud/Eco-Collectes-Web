@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+{{ parent() }}
+{% endblock %}
+
+{% block child %}
+<section class="page">
+<div class="filter">
+<a href="{{path("app_ranking_donneurs")}}" class="btn btn-outline-primary">Donneurs</a>
+<a href={{path("app_ranking_collecteurs")}} class="btn btn-outline-secondary">Collecteurs</a>
+<a href={{path("app_ranking")}}  class="btn btn-outline-success">Tous</a>
+</div>
+<table class="table table-success table-striped ranking">
+ <thead>
+    <tr>
+       <th></th>
+      <th scope="col">ID</th>
+      <th scope="col">Username</th>
+      <th scope="col">Rôle</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for u in users %}
+  <tr>
+    <th>
+  {% if u.imageFilename == null %}
+                  {% if u.gender == "homme" %}
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="roun" >
+                  {% else %}
+                 <img src={{asset("front/images/female.png")}} alt="user" class="roun" >
+                   {% endif %}
+                   {% else %} 
+                    <img src="{{ asset("front/images/" ~ u.imageFilename) }}" alt="user" class="roun" />
+                   {% endif %}
+   </th> 
+   <th> {{ u.id }} </th>
+   <th> {{ u.username }} </th>
+   <th> {{ u.roles[0] }} </th>
+
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</section>
+{% endblock %}

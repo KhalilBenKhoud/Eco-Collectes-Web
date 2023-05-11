@@ -17,9 +17,7 @@ class AnnoncesController extends AbstractController
     #[Route('/annonces', name: 'app_annonces')]
     public function index(): Response
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('app_home');
-        }
+        
         return $this->render('annonces/annonces.html.twig', [
             'controller_name' => 'AnnoncesController',
         ]);

@@ -88,4 +88,24 @@ public function countofusers() : int
         ->getQuery()
         ->getSingleScalarResult();
 }
+
+   public function triUsers(): array
+   {
+       return $this->createQueryBuilder('u')
+         //  ->andWhere('u.exampleField = :val')
+           ->orderBy('u.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+   public function triSpec($value): array
+   {
+       return $this->createQueryBuilder('u')
+           ->andWhere('u.roles like :val ')
+           ->setParameter('val', "%$value%" )
+           ->orderBy('u.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 }
